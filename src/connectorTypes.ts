@@ -62,15 +62,25 @@ export class ConnectorTypeManager {
     const startIsVertical = startSide === 'top' || startSide === 'bottom';
     const endIsVertical = endSide === 'top' || endSide === 'bottom';
 
+    // clearance between the resulting path and the selected sides, used when the
+    // start and end points are aligned, and a u turn is needed instead of a zigzag
+    const alignedOffset = 20; //TODO: derive from the stroke width?
+
     if (startIsHorizontal && endIsHorizontal) {
-      // CASO HORIZONTAL: left/right ↔ left/right (necesita zigzag)
-      const midX = x1 + deltaX / 2;
-      return `M ${x1} ${y1} L ${midX} ${y1} L ${midX} ${y2} L ${x2} ${y2}`;
+
+      const endsAreAligned = deltaX === 0 && startSide === endSide;
+
+      const offsetX = x1 + (endsAreAligned ? alignedOffset * (startSide === 'left' ? -1 : 1) : (deltaX / 2));
+
+      return `M ${x1} ${y1} L ${offsetX} ${y1} L ${offsetX} ${y2} L ${x2} ${y2}`;
 
     } else if (startIsVertical && endIsVertical) {
-      // CASO VERTICAL: top/bottom ↔ top/bottom (necesita zigzag)
-      const midY = y1 + deltaY / 2;
-      return `M ${x1} ${y1} L ${x1} ${midY} L ${x2} ${midY} L ${x2} ${y2}`;
+
+      const endsAreAligned = deltaY === 0 && startSide === endSide;
+
+      const offsetY = y1 + (endsAreAligned ? alignedOffset * (startSide === 'top' ? -1 : 1) : (deltaY / 2));
+
+      return `M ${x1} ${y1} L ${x1} ${offsetY} L ${x2} ${offsetY} L ${x2} ${y2}`;
 
     } else if (startIsHorizontal && endIsVertical) {
       // CASO MIXTO: left/right → top/bottom (una esquina)
