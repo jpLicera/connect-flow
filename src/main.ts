@@ -20,6 +20,7 @@ interface ConnectorSettings {
   endAnchor: string | null;
   connectorType: ConnectorType;
   offset: number;
+  selectionType: string;
 }
 
 const settings: ConnectorSettings = {
@@ -34,7 +35,8 @@ const settings: ConnectorSettings = {
   startAnchor: null,
   endAnchor: null,
   connectorType: "direct",
-  offset: 0
+  offset: 0,
+  selectionType: "connector"
 };
 
 let colorPicker: ColorPicker | null = null;

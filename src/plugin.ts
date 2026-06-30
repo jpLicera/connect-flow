@@ -29,6 +29,7 @@ interface ConnectorSettings {
   endAnchor: string | null;
   connectorType: ConnectorType;
   offset: number;
+	selectionType: string;
 }
 
 interface Point {
@@ -332,8 +333,17 @@ function generateConnector(settings: ConnectorSettings) {
 
       const createdElements: any[] = [finalConnector];
 
-      // Select the created elements
-      penpot.selection = createdElements;
+      switch (settings.selectionType) {
+        case 'start':
+          penpot.selection = [shape1];
+          break;
+				case 'end':
+          penpot.selection = [shape2];
+          break;
+        default:
+          // Select the created elements
+          penpot.selection = createdElements;
+      }
 
       penpot.ui.sendMessage({
         type: 'notification',
@@ -376,7 +386,8 @@ let currentSettings: ConnectorSettings = {
   startAnchor: null,
   endAnchor: null,
   connectorType: "direct",
-  offset: 0
+  offset: 0,
+	selectionType: "connector"
 };
 
 // Auto-generate on selection change if enabled
