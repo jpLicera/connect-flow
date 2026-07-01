@@ -58,22 +58,18 @@ function updateUI() {
 
   if (styleDropdown) {
     styleDropdown.value = settings.style;
-    console.log('Initialized style dropdown to:', settings.style);
   }
 
   if (startArrowDropdown) {
     startArrowDropdown.value = settings.startArrow;
-    console.log('Initialized startArrow dropdown to:', settings.startArrow);
   }
 
   if (endArrowDropdown) {
     endArrowDropdown.value = settings.endArrow;
-    console.log('Initialized endArrow dropdown to:', settings.endArrow);
   }
 
   if (connectorTypeDropdown) {
     connectorTypeDropdown.value = settings.connectorType;
-    console.log('Initialized connectorType dropdown to:', settings.connectorType);
   }
 }
 
@@ -105,7 +101,6 @@ document.querySelectorAll(".dropdown").forEach(dropdown => {
     const target = e.target as HTMLSelectElement;
     const setting = target.dataset.setting as keyof ConnectorSettings;
     if (setting) {
-      console.log(`Setting ${setting} to:`, target.value);
       (settings as any)[setting] = target.value;
       parent.postMessage({ type: "settings-changed", settings }, "*");
     }

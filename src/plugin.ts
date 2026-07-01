@@ -97,7 +97,6 @@ function applyOffsetToAnchorPoint(anchorPoint: AnchorPoint, offsetValue: number)
 
 // Generate connector between two selected objects
 function generateConnector(settings: ConnectorSettings) {
-  console.log('Generating connector with settings:', settings);
   const selected = penpot.selection;
 
   // Validate selection
@@ -119,7 +118,6 @@ function generateConnector(settings: ConnectorSettings) {
     // Both anchors manually selected
     start = getAnchorPointBySide(shape1, settings.startAnchor as 'top' | 'right' | 'bottom' | 'left');
     end = getAnchorPointBySide(shape2, settings.endAnchor as 'top' | 'right' | 'bottom' | 'left');
-    console.log('Using manually selected anchor points:', settings.startAnchor, settings.endAnchor);
   } else if (settings.startAnchor) {
     // Only start anchor manually selected
     start = getAnchorPointBySide(shape1, settings.startAnchor as 'top' | 'right' | 'bottom' | 'left');
@@ -134,7 +132,6 @@ function generateConnector(settings: ConnectorSettings) {
         end = anchor2;
       }
     }
-    console.log('Using manually selected start anchor:', settings.startAnchor, 'and closest end anchor:', end.side);
   } else if (settings.endAnchor) {
     // Only end anchor manually selected
     end = getAnchorPointBySide(shape2, settings.endAnchor as 'top' | 'right' | 'bottom' | 'left');
@@ -149,49 +146,28 @@ function generateConnector(settings: ConnectorSettings) {
         start = anchor1;
       }
     }
-    console.log('Using manually selected end anchor:', settings.endAnchor, 'and closest start anchor:', start.side);
   } else {
     // No manual selection, use automatic detection
     const closestPair = findClosestAnchorPoints(shape1, shape2);
     start = closestPair.start;
     end = closestPair.end;
-    console.log('Using automatically detected anchor points:', start.side, end.side);
   }
 
   // Apply offset to anchor points
   const offsetValue = settings.offset || 0;
-  console.log('Original start point:', start.x, start.y, 'side:', start.side);
-  console.log('Original end point:', end.x, end.y, 'side:', end.side);
-  console.log('Offset value:', offsetValue);
 
   if (offsetValue > 0) {
-    const originalStart = { ...start };
-    const originalEnd = { ...end };
-
     start = applyOffsetToAnchorPoint(start, offsetValue);
     end = applyOffsetToAnchorPoint(end, offsetValue);
-
-    console.log('After offset - start point:', start.x, start.y, 'side:', start.side);
-    console.log('After offset - end point:', end.x, end.y, 'side:', end.side);
-    console.log('Start offset delta:', start.x - originalStart.x, start.y - originalStart.y);
-    console.log('End offset delta:', end.x - originalEnd.x, end.y - originalEnd.y);
-    console.log('Applied offset of', offsetValue, 'pixels to anchor points');
   }
 
   // Try creating a path using SVG string (alternative approach)
   try {
-    console.log('Creating path using SVG approach');
-    console.log('Start point:', start.x, start.y);
-    console.log('End point:', end.x, end.y);
-    console.log('Connector type:', settings.connectorType);
-
     const pathData = generatePath({
       type: settings.connectorType,
       startPoint: start,
       endPoint: end
     });
-
-    console.log('Generated path data:', pathData);
 
     // Create a minimal SVG with proper viewBox to avoid huge dimensions
     // Add extra padding to account for offset and stroke width
@@ -201,20 +177,14 @@ function generateConnector(settings: ConnectorSettings) {
     const width = Math.abs(end.x - start.x) + (padding * 2);
     const height = Math.abs(end.y - start.y) + (padding * 2);
 
-    console.log('SVG viewBox:', minX, minY, width, height, 'padding:', padding);
-
     const svgString = `<svg viewBox="${minX} ${minY} ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
       <path d="${pathData}" fill="none" stroke="${settings.color}" stroke-width="${settings.strokeWidth}"/>
     </svg>`;
-
-    console.log('SVG string:', svgString);
 
     const connector = penpot.createShapeFromSvg(svgString);
     let finalConnector: any = connector;
 
     if (connector) {
-      console.log('SVG shape created successfully');
-
       // Find the path inside the group recursively
       const findPath = (shape: any): any => {
         if (penpot.utils.types.isPath(shape)) {
@@ -232,17 +202,11 @@ function generateConnector(settings: ConnectorSettings) {
       const pathShape = findPath(connector);
 
       if (pathShape) {
-        console.log('Found path shape:', pathShape.type);
 
         // Apply styling to the path
         pathShape.fills = [];
         const strokeAlignment = settings.position as 'center' | 'inner' | 'outer';
         const strokeStyle = settings.style as 'solid' | 'dashed' | 'dotted' | 'mixed';
-
-        console.log('Setting strokeAlignment to:', strokeAlignment);
-        console.log('Setting strokeStyle to:', strokeStyle);
-        console.log('Settings startArrow:', settings.startArrow);
-        console.log('Settings endArrow:', settings.endArrow);
 
         // Build stroke object with caps
         const stroke: any = {
@@ -256,24 +220,19 @@ function generateConnector(settings: ConnectorSettings) {
         // Add stroke caps if they are not 'none'
         if (settings.startArrow !== 'none') {
           stroke.strokeCapStart = settings.startArrow as 'round' | 'square' | 'line-arrow' | 'triangle-arrow' | 'square-marker' | 'circle-marker' | 'diamond-marker';
-          console.log('Adding strokeCapStart:', stroke.strokeCapStart);
         }
 
         if (settings.endArrow !== 'none') {
           stroke.strokeCapEnd = settings.endArrow as 'round' | 'square' | 'line-arrow' | 'triangle-arrow' | 'square-marker' | 'circle-marker' | 'diamond-marker';
-          console.log('Adding strokeCapEnd:', stroke.strokeCapEnd);
         }
 
-        console.log('Final stroke object:', JSON.stringify(stroke, null, 2));
         pathShape.strokes = [stroke];
 
         // Extract the path from the group using ungroup
-        console.log('Ungrouping SVG to extract path');
 
         // Position the group correctly first
         connector.x = minX;
         connector.y = minY;
-        console.log('Positioned connector at:', connector.x, connector.y);
 
         // Before ungrouping, collect all non-path elements to delete them
         const elementsToDelete: any[] = [];
@@ -281,7 +240,6 @@ function generateConnector(settings: ConnectorSettings) {
           for (const child of connector.children) {
             if (!penpot.utils.types.isPath(child)) {
               elementsToDelete.push(child);
-              console.log('Marking for deletion:', child.type);
             }
           }
         }
@@ -289,22 +247,18 @@ function generateConnector(settings: ConnectorSettings) {
         // Ungroup the SVG to get individual elements
         if (penpot.utils.types.isGroup(connector)) {
           penpot.ungroup(connector);
-          console.log('SVG group ungrouped');
 
           // Delete the unwanted elements (like base-background)
           for (const element of elementsToDelete) {
             try {
               element.remove();
-              console.log('Deleted element:', element.type);
             } catch (error) {
-              console.log('Could not delete element:', error);
             }
           }
 
           // Use the path as our final connector
           finalConnector = pathShape;
         } else {
-          console.log('Connector is not a group, using as-is');
           finalConnector = connector;
         }
       } else {
@@ -352,7 +306,6 @@ penpot.ui.onMessage<any>((message) => {
     case 'settings-changed':
       // Update current settings to keep them in sync
       currentSettings = { ...message.settings };
-      console.log('Settings updated, drawOnSelection:', currentSettings.drawOnSelection);
       break;
   }
 });
@@ -390,7 +343,6 @@ penpot.on('selectionchange', () => {
 
   // Auto-generate connector if drawOnSelection is enabled and we have exactly 2 elements
   if (currentSettings.drawOnSelection && selection.length === 2) {
-    console.log('Auto-generating connector due to drawOnSelection being enabled');
     generateConnector(currentSettings);
   }
 });
