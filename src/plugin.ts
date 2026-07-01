@@ -318,8 +318,11 @@ function generateConnector(settings: ConnectorSettings) {
         case 'start':
           penpot.selection = [shape1];
           break;
-				case 'end':
+        case 'end':
           penpot.selection = [shape2];
+          break;
+      case 'maintain':
+          penpot.selection = [shape1, shape2];
           break;
         default:
           // Select the created elements
