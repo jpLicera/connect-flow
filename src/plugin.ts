@@ -1,4 +1,7 @@
-import { ConnectorTypeManager, ConnectorType, AnchorPoint } from "./connectorTypes";
+import { ConnectorTypeManager } from "./connectorTypes";
+import { AnchorPoint } from "./types/AnchorPoints";
+import { ConnectorSettings } from "./types/ConnectorSettings";
+import { Point } from "./types/Point";
 
 penpot.ui.open("ConnectFlow", `?theme=${penpot.theme}`, { width: 320, height: 600 });
 
@@ -15,27 +18,6 @@ setTimeout(() => {
     selection: selection
   });
 }, 100);
-
-interface ConnectorSettings {
-  color: string;
-  opacity: number;
-  strokeWidth: number;
-  position: string;
-  style: string;
-  startArrow: string;
-  endArrow: string;
-  drawOnSelection: boolean;
-  startAnchor: string | null;
-  endAnchor: string | null;
-  connectorType: ConnectorType;
-  offset: number;
-	selectionType: string;
-}
-
-interface Point {
-  x: number;
-  y: number;
-}
 
 // Calculate anchor points for a shape
 function getAnchorPoints(shape: any): AnchorPoint[] {

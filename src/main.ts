@@ -1,27 +1,10 @@
 import "./style.css";
 import { ColorPicker } from "./colorPicker";
-import { ConnectorType } from "./connectorTypes";
+import { ConnectorSettings } from "./types/ConnectorSettings";
 
 // get the current theme from the URL
 const searchParams = new URLSearchParams(window.location.search);
 document.body.dataset.theme = searchParams.get("theme") ?? "light";
-
-// Plugin state
-interface ConnectorSettings {
-  color: string;
-  opacity: number;
-  strokeWidth: number;
-  position: string;
-  style: string;
-  startArrow: string;
-  endArrow: string;
-  drawOnSelection: boolean;
-  startAnchor: string | null;
-  endAnchor: string | null;
-  connectorType: ConnectorType;
-  offset: number;
-  selectionType: string;
-}
 
 const settings: ConnectorSettings = {
   color: "#000000",
