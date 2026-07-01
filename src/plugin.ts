@@ -1,4 +1,4 @@
-import { ConnectorTypeManager } from "./connectorTypes";
+import { generatePath } from "./generate-path";
 import { AnchorPoint } from "./types/AnchorPoints";
 import { ConnectorSettings } from "./types/ConnectorSettings";
 import { Point } from "./types/Point";
@@ -185,8 +185,7 @@ function generateConnector(settings: ConnectorSettings) {
     console.log('End point:', end.x, end.y);
     console.log('Connector type:', settings.connectorType);
 
-    // Generate path data using the connector type manager
-    const pathData = ConnectorTypeManager.generatePath({
+    const pathData = generatePath({
       type: settings.connectorType,
       startPoint: start,
       endPoint: end
