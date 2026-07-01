@@ -1,21 +1,6 @@
-export interface ColorPickerOptions {
-  initialColor?: string;
-  initialOpacity?: number;
-  onColorChange?: (color: string, opacity: number) => void;
-  onClose?: () => void;
-}
-
-export interface HSV {
-  h: number; // 0-360
-  s: number; // 0-100
-  v: number; // 0-100
-}
-
-export interface RGB {
-  r: number; // 0-255
-  g: number; // 0-255
-  b: number; // 0-255
-}
+import { ColorPickerOptions } from "./types/ColorPickerOptions";
+import { HSV } from "./types/Hsv";
+import { RGB } from "./types/Rgb";
 
 export class ColorPicker {
   private container!: HTMLElement;
