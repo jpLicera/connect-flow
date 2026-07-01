@@ -1,4 +1,5 @@
 import { ConnectorType } from "./ConnectorType";
+import { SelectionType } from "./SelectionType";
 
 export interface ConnectorSettings {
   color: string;
@@ -13,5 +14,5 @@ export interface ConnectorSettings {
   endAnchor: string | null;
   connectorType: ConnectorType;
   offset: number;
-	selectionType: string;
+	selectionType: SelectionType;
 }
