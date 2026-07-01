@@ -1,5 +1,5 @@
 import { AnchorPoint } from "./types/AnchorPoints";
-import { ConnectorSettings } from "./types/ConnectorSettings";
+import { ConnectorTypeOptions } from "./types/ConnectorTypeOptions";
 import { ConnectorType } from "./types/ConnectorType";
 import { Point } from "./types/Point";
 
