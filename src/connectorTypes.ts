@@ -185,10 +185,6 @@ export class ConnectorTypeManager {
     }
   }
 
-
-
-
-
   /**
    * Obtiene el nombre legible del tipo de conector
    */

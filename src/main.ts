@@ -35,42 +35,42 @@ function updateUI() {
   const startArrowDropdown = document.querySelector("[data-setting='startArrow']") as HTMLSelectElement;
   const endArrowDropdown = document.querySelector("[data-setting='endArrow']") as HTMLSelectElement;
   const connectorTypeDropdown = document.querySelector("[data-setting='connectorType']") as HTMLSelectElement;
-  
+
   if (colorSwatch) {
     colorSwatch.style.backgroundColor = settings.color;
   }
-  
+
   if (colorLabel) {
     colorLabel.textContent = settings.color.replace("#", "").toUpperCase();
   }
-  
+
   if (opacityValue) {
     opacityValue.textContent = Math.round(settings.opacity).toString();
   }
-  
+
   if (strokeInput) {
     strokeInput.value = settings.strokeWidth.toString();
   }
-  
+
   if (offsetInput) {
     offsetInput.value = settings.offset.toString();
   }
-  
+
   if (styleDropdown) {
     styleDropdown.value = settings.style;
     console.log('Initialized style dropdown to:', settings.style);
   }
-  
+
   if (startArrowDropdown) {
     startArrowDropdown.value = settings.startArrow;
     console.log('Initialized startArrow dropdown to:', settings.startArrow);
   }
-  
+
   if (endArrowDropdown) {
     endArrowDropdown.value = settings.endArrow;
     console.log('Initialized endArrow dropdown to:', settings.endArrow);
   }
-  
+
   if (connectorTypeDropdown) {
     connectorTypeDropdown.value = settings.connectorType;
     console.log('Initialized connectorType dropdown to:', settings.connectorType);
@@ -82,7 +82,7 @@ document.querySelector(".color-swatch")?.addEventListener("click", () => {
   if (colorPicker) {
     colorPicker.destroy();
   }
-  
+
   colorPicker = new ColorPicker({
     initialColor: settings.color,
     initialOpacity: settings.opacity,
@@ -96,7 +96,7 @@ document.querySelector(".color-swatch")?.addEventListener("click", () => {
       colorPicker = null;
     }
   });
-  
+
   colorPicker.show();
 });
 
@@ -134,10 +134,10 @@ document.querySelector(".stroke-input")?.addEventListener("keydown", (e) => {
 
 document.querySelector(".stroke-input")?.addEventListener("input", (e) => {
   const target = e.target as HTMLInputElement;
-  
+
   // Remover cualquier carácter que no sea número
   target.value = target.value.replace(/[^0-9]/g, '');
-  
+
   const value = parseInt(target.value);
   if (!isNaN(value) && value >= 1 && value <= 100) {
     settings.strokeWidth = value;
@@ -176,10 +176,10 @@ document.querySelector(".offset-input")?.addEventListener("keydown", (e) => {
 
 document.querySelector(".offset-input")?.addEventListener("input", (e) => {
   const target = e.target as HTMLInputElement;
-  
+
   // Remover cualquier carácter que no sea número
   target.value = target.value.replace(/[^0-9]/g, '');
-  
+
   const value = parseInt(target.value);
   if (!isNaN(value) && value >= 0 && value <= 200) {
     settings.offset = value;
@@ -215,10 +215,10 @@ function setupAnchorPointListeners() {
       const side = target.classList.contains('top') ? 'top' :
                    target.classList.contains('right') ? 'right' :
                    target.classList.contains('bottom') ? 'bottom' : 'left';
-      
+
       const previewElement = target.closest('.preview-element');
       const isLeftElement = previewElement?.classList.contains('left');
-      
+
       if (isLeftElement) {
         // Handle start anchor selection
         handleAnchorSelection('start', side, target);
@@ -233,12 +233,12 @@ function setupAnchorPointListeners() {
 function handleAnchorSelection(elementType: 'start' | 'end', side: string, clickedElement: HTMLElement) {
   const previewElement = clickedElement.closest('.preview-element');
   if (!previewElement) return;
-  
+
   // Remove selected class from all anchor points in this element
   previewElement.querySelectorAll('.anchor-point').forEach(point => {
     point.classList.remove('selected');
   });
-  
+
   // If clicking the same anchor point that's already selected, deselect it
   const currentSelection = elementType === 'start' ? settings.startAnchor : settings.endAnchor;
   if (currentSelection === side) {
@@ -257,7 +257,7 @@ function handleAnchorSelection(elementType: 'start' | 'end', side: string, click
       settings.endAnchor = side;
     }
   }
-  
+
   // Notify plugin about settings change
   parent.postMessage({ type: "settings-changed", settings }, "*");
 }
@@ -279,20 +279,20 @@ window.addEventListener("message", (event) => {
 function updatePreviewElements(selection: any[]) {
   const leftPreviewText = document.querySelector(".preview-element.left .preview-text") as HTMLElement;
   const rightPreviewText = document.querySelector(".preview-element.right .preview-text") as HTMLElement;
-  
+
   if (!leftPreviewText || !rightPreviewText) return;
-  
+
   // Default placeholder texts
   const defaultLeftText = "Select an element";
   const defaultRightText = "then another element holding [Shift]";
-  
+
   if (selection.length === 0) {
     // No selection - show placeholders and reset anchor selections
     leftPreviewText.textContent = defaultLeftText;
     leftPreviewText.classList.remove('selected');
     rightPreviewText.textContent = defaultRightText;
     rightPreviewText.classList.remove('selected');
-    
+
     // Reset anchor point selections
     settings.startAnchor = null;
     settings.endAnchor = null;
@@ -303,7 +303,7 @@ function updatePreviewElements(selection: any[]) {
     leftPreviewText.classList.add('selected');
     rightPreviewText.textContent = defaultRightText;
     rightPreviewText.classList.remove('selected');
-    
+
     // Reset end anchor when only one element is selected
     settings.endAnchor = null;
     updateAnchorPointsVisualState();
@@ -313,7 +313,7 @@ function updatePreviewElements(selection: any[]) {
     leftPreviewText.classList.add('selected');
     rightPreviewText.textContent = selection[1].name || "Element 2";
     rightPreviewText.classList.add('selected');
-    
+
     // Keep current anchor selections
     updateAnchorPointsVisualState();
   }
@@ -325,13 +325,13 @@ function updateAnchorPointsVisualState() {
   document.querySelectorAll('.anchor-point').forEach(point => {
     point.classList.remove('selected');
   });
-  
+
   // Apply selected state to current selections
   if (settings.startAnchor) {
     const startAnchor = document.querySelector(`.preview-element.left .anchor-point.${settings.startAnchor}`);
     startAnchor?.classList.add('selected');
   }
-  
+
   if (settings.endAnchor) {
     const endAnchor = document.querySelector(`.preview-element.right .anchor-point.${settings.endAnchor}`);
     endAnchor?.classList.add('selected');
@@ -356,9 +356,9 @@ function showNotification(message: string) {
     max-width: 300px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   `;
-  
+
   document.body.appendChild(notification);
-  
+
   // Remove after 3 seconds
   setTimeout(() => {
     if (notification.parentNode) {
