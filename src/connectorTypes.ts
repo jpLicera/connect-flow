@@ -1,19 +1,7 @@
-export interface Point {
-  x: number;
-  y: number;
-}
-
-export interface AnchorPoint extends Point {
-  side: 'top' | 'right' | 'bottom' | 'left';
-}
-
-export type ConnectorType = 'direct' | 'orthogonal' | 'curve';
-
-export interface ConnectorTypeOptions {
-  type: ConnectorType;
-  startPoint: AnchorPoint;
-  endPoint: AnchorPoint;
-}
+import { AnchorPoint } from "./types/AnchorPoints";
+import { ConnectorSettings } from "./types/ConnectorSettings";
+import { ConnectorType } from "./types/ConnectorType";
+import { Point } from "./types/Point";
 
 /**
  * Clase para manejar los diferentes tipos de conectores
