@@ -12,7 +12,7 @@ export function generatePath(options: ConnectorTypeOptions): string {
 		case 'direct':
 			return generateDirectPath(startPoint, endPoint);
 		case 'orthogonal':
-			return generateOrthogonalPath(startPoint, endPoint);
+			return generateOrthogonalPath(startPoint, endPoint, options.strokeWidth);
 		case 'curve':
 			return generateCurvePath(startPoint, endPoint);
 		default:
@@ -31,7 +31,7 @@ function generateDirectPath(start: Point, end: Point): string {
  * Modo Orthogonal: Conexión con ángulos rectos (90 grados)
  * Maneja diferentes tipos de conexiones según los lados de anclaje
  */
-function generateOrthogonalPath(start: AnchorPoint, end: AnchorPoint): string {
+function generateOrthogonalPath(start: AnchorPoint, end: AnchorPoint, strokeWidth: number): string {
 	const { x: x1, y: y1, side: startSide } = start;
 	const { x: x2, y: y2, side: endSide } = end;
 
@@ -46,11 +46,11 @@ function generateOrthogonalPath(start: AnchorPoint, end: AnchorPoint): string {
 
 	// clearance between the resulting path and the selected sides, used when the
 	// start and end points are aligned, and a u turn is needed instead of a zigzag
-	const alignedOffset = 20; //TODO: derive from the stroke width?
+	const alignedOffset = Math.floor(strokeWidth * 1.5);
 
 	if (startIsHorizontal && endIsHorizontal) {
 
-		const endsAreAligned = deltaX === 0 && startSide === endSide;
+		const endsAreAligned = Math.abs(deltaX) < strokeWidth && startSide === endSide;
 
 		const offsetX = x1 + (endsAreAligned ? alignedOffset * (startSide === 'left' ? -1 : 1) : (deltaX / 2));
 
@@ -58,7 +58,7 @@ function generateOrthogonalPath(start: AnchorPoint, end: AnchorPoint): string {
 
 	} else if (startIsVertical && endIsVertical) {
 
-		const endsAreAligned = deltaY === 0 && startSide === endSide;
+		const endsAreAligned = Math.abs(deltaY) < strokeWidth && startSide === endSide;
 
 		const offsetY = y1 + (endsAreAligned ? alignedOffset * (startSide === 'top' ? -1 : 1) : (deltaY / 2));
 

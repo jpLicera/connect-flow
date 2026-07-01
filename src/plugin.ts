@@ -166,7 +166,8 @@ function generateConnector(settings: ConnectorSettings) {
     const pathData = generatePath({
       type: settings.connectorType,
       startPoint: start,
-      endPoint: end
+      endPoint: end,
+      strokeWidth: settings.strokeWidth
     });
 
     // Create a minimal SVG with proper viewBox to avoid huge dimensions

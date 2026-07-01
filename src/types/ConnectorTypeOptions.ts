@@ -5,4 +5,5 @@ export interface ConnectorTypeOptions {
   type: ConnectorType;
   startPoint: AnchorPoint;
   endPoint: AnchorPoint;
+  strokeWidth: number
 }
