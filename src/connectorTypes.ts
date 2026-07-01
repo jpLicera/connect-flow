@@ -1,6 +1,5 @@
 import { AnchorPoint } from "./types/AnchorPoints";
 import { ConnectorTypeOptions } from "./types/ConnectorTypeOptions";
-import { ConnectorType } from "./types/ConnectorType";
 import { Point } from "./types/Point";
 
 /**
@@ -183,32 +182,5 @@ export class ConnectorTypeManager {
         return `M ${x1} ${y1} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${x2} ${y2}`;
       }
     }
-  }
-
-  /**
-   * Obtiene el nombre legible del tipo de conector
-   */
-  static getConnectorTypeName(type: ConnectorType): string {
-    switch (type) {
-      case 'direct':
-        return 'Direct';
-      case 'orthogonal':
-        return 'Orthogonal';
-      case 'curve':
-        return 'Curve';
-      default:
-        return 'Direct';
-    }
-  }
-
-  /**
-   * Obtiene todos los tipos de conectores disponibles
-   */
-  static getAvailableTypes(): { value: ConnectorType; label: string }[] {
-    return [
-      { value: 'direct', label: 'Direct' },
-      { value: 'orthogonal', label: 'Orthogonal' },
-      { value: 'curve', label: 'Curve' }
-    ];
   }
 }
