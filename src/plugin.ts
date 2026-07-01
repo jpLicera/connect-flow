@@ -3,7 +3,7 @@ import { AnchorPoint } from "./types/AnchorPoints";
 import { ConnectorSettings } from "./types/ConnectorSettings";
 import { Point } from "./types/Point";
 
-penpot.ui.open("ConnectFlow", `?theme=${penpot.theme}`, { width: 320, height: 600 });
+penpot.ui.open("ConnectFlow", `?theme=${penpot.theme}`, { width: 500, height: 700 });
 
 // Send initial selection state
 setTimeout(() => {
