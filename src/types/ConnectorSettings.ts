@@ -1,5 +1,6 @@
 import { ConnectorType } from "./ConnectorType";
 import { SelectionType } from "./SelectionType";
+import { ShapeSide } from "./ShapeSide";
 
 export interface ConnectorSettings {
   color: string;
@@ -10,8 +11,8 @@ export interface ConnectorSettings {
   startArrow: string;
   endArrow: string;
   drawOnSelection: boolean;
-  startAnchor: string | null;
-  endAnchor: string | null;
+  startAnchor: ShapeSide | null;
+  endAnchor: ShapeSide | null;
   connectorType: ConnectorType;
   offset: number;
 	selectionType: SelectionType;

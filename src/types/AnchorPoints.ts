@@ -1,5 +1,6 @@
 import { Point } from "./Point";
+import { ShapeSide } from "./ShapeSide";
 
 export interface AnchorPoint extends Point {
-  side: 'top' | 'right' | 'bottom' | 'left';
+  side: ShapeSide;
 }

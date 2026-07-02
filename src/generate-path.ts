@@ -1,6 +1,7 @@
 import { AnchorPoint } from "./types/AnchorPoints";
 import { ConnectorTypeOptions } from "./types/ConnectorTypeOptions";
 import { Point } from "./types/Point";
+import { ShapeSide } from "./types/ShapeSide";
 
 /**
  * Genera el path SVG según el tipo de conector seleccionado
@@ -39,10 +40,10 @@ function generateOrthogonalPath(start: AnchorPoint, end: AnchorPoint, strokeWidt
 	const deltaY = y2 - y1;
 
 	// Clasificar el tipo de conexión basado en los lados de anclaje
-	const startIsHorizontal = startSide === 'left' || startSide === 'right';
-	const endIsHorizontal = endSide === 'left' || endSide === 'right';
-	const startIsVertical = startSide === 'top' || startSide === 'bottom';
-	const endIsVertical = endSide === 'top' || endSide === 'bottom';
+	const startIsHorizontal = startSide === ShapeSide.left || startSide === ShapeSide.right;
+	const endIsHorizontal = endSide === ShapeSide.left || endSide === ShapeSide.right;
+	const startIsVertical = startSide === ShapeSide.top || startSide === ShapeSide.bottom;
+	const endIsVertical = endSide === ShapeSide.top || endSide === ShapeSide.bottom;
 
 	// clearance between the resulting path and the selected sides, used when the
 	// start and end points are aligned, and a u turn is needed instead of a zigzag
@@ -52,7 +53,7 @@ function generateOrthogonalPath(start: AnchorPoint, end: AnchorPoint, strokeWidt
 
 		const endsAreAligned = Math.abs(deltaX) < strokeWidth && startSide === endSide;
 
-		const offsetX = x1 + (endsAreAligned ? alignedOffset * (startSide === 'left' ? -1 : 1) : (deltaX / 2));
+		const offsetX = x1 + (endsAreAligned ? alignedOffset * (startSide === ShapeSide.left ? -1 : 1) : (deltaX / 2));
 
 		return `M ${x1} ${y1} L ${offsetX} ${y1} L ${offsetX} ${y2} L ${x2} ${y2}`;
 
@@ -60,7 +61,7 @@ function generateOrthogonalPath(start: AnchorPoint, end: AnchorPoint, strokeWidt
 
 		const endsAreAligned = Math.abs(deltaY) < strokeWidth && startSide === endSide;
 
-		const offsetY = y1 + (endsAreAligned ? alignedOffset * (startSide === 'top' ? -1 : 1) : (deltaY / 2));
+		const offsetY = y1 + (endsAreAligned ? alignedOffset * (startSide === ShapeSide.top ? -1 : 1) : (deltaY / 2));
 
 		return `M ${x1} ${y1} L ${x1} ${offsetY} L ${x2} ${offsetY} L ${x2} ${y2}`;
 
@@ -102,10 +103,10 @@ function generateCurvePath(start: AnchorPoint, end: AnchorPoint): string {
 	const curveFactor = Math.max(minCurveFactor, Math.min(distance / 3, 120));
 
 	// Clasificar el tipo de conexión basado en los lados de anclaje
-	const startIsHorizontal = startSide === 'left' || startSide === 'right';
-	const endIsHorizontal = endSide === 'left' || endSide === 'right';
-	const startIsVertical = startSide === 'top' || startSide === 'bottom';
-	const endIsVertical = endSide === 'top' || endSide === 'bottom';
+	const startIsHorizontal = startSide === ShapeSide.left || startSide === ShapeSide.right;
+	const endIsHorizontal = endSide === ShapeSide.left || endSide === ShapeSide.right;
+	const startIsVertical = startSide === ShapeSide.top || startSide === ShapeSide.bottom;
+	const endIsVertical = endSide === ShapeSide.top || endSide === ShapeSide.bottom;
 
 	if (startIsHorizontal && endIsHorizontal) {
 		// CASO HORIZONTAL: left/right ↔ left/right (curva tipo "S" horizontal)

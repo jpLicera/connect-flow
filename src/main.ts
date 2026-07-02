@@ -1,6 +1,7 @@
 import "./style.css";
 import { ColorPicker } from "./colorPicker";
 import { ConnectorSettings } from "./types/ConnectorSettings";
+import { ShapeSide } from "./types/ShapeSide";
 
 // get the current theme from the URL
 const searchParams = new URLSearchParams(window.location.search);
@@ -207,9 +208,7 @@ function setupAnchorPointListeners() {
   document.querySelectorAll('.anchor-point').forEach(anchorPoint => {
     anchorPoint.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
-      const side = target.classList.contains('top') ? 'top' :
-                   target.classList.contains('right') ? 'right' :
-                   target.classList.contains('bottom') ? 'bottom' : 'left';
+      const side: ShapeSide = target.dataset.side as ShapeSide;
 
       const previewElement = target.closest('.preview-element');
       const isLeftElement = previewElement?.classList.contains('left');
@@ -225,7 +224,7 @@ function setupAnchorPointListeners() {
   });
 }
 
-function handleAnchorSelection(elementType: 'start' | 'end', side: string, clickedElement: HTMLElement) {
+function handleAnchorSelection(elementType: 'start' | 'end', side: ShapeSide, clickedElement: HTMLElement) {
   const previewElement = clickedElement.closest('.preview-element');
   if (!previewElement) return;
 

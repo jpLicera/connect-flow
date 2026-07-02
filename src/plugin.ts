@@ -1,7 +1,9 @@
+import { Shape } from "@penpot/plugin-types";
 import { generatePath } from "./generate-path";
 import { AnchorPoint } from "./types/AnchorPoints";
 import { ConnectorSettings } from "./types/ConnectorSettings";
 import { Point } from "./types/Point";
+import { ShapeSide } from "./types/ShapeSide";
 
 penpot.ui.open("ConnectFlow", `?theme=${penpot.theme}`, { width: 500, height: 700 });
 
@@ -20,32 +22,32 @@ setTimeout(() => {
 }, 100);
 
 // Calculate anchor points for a shape
-function getAnchorPoints(shape: any): AnchorPoint[] {
+function getAnchorPoints(shape: Shape): AnchorPoint[] {
   const centerX = shape.x + shape.width / 2;
   const centerY = shape.y + shape.height / 2;
 
   return [
-    { x: centerX, y: shape.y, side: 'top' },
-    { x: shape.x + shape.width, y: centerY, side: 'right' },
-    { x: centerX, y: shape.y + shape.height, side: 'bottom' },
-    { x: shape.x, y: centerY, side: 'left' }
+    { x: centerX, y: shape.y, side: ShapeSide.top },
+    { x: shape.x + shape.width, y: centerY, side: ShapeSide.right },
+    { x: centerX, y: shape.y + shape.height, side: ShapeSide.bottom },
+    { x: shape.x, y: centerY, side: ShapeSide.left }
   ];
 }
 
 // Get specific anchor point by side
-function getAnchorPointBySide(shape: any, side: 'top' | 'right' | 'bottom' | 'left'): AnchorPoint {
+function getAnchorPointBySide(shape: Shape, side: ShapeSide): AnchorPoint {
   const centerX = shape.x + shape.width / 2;
   const centerY = shape.y + shape.height / 2;
 
   switch (side) {
-    case 'top':
-      return { x: centerX, y: shape.y, side: 'top' };
-    case 'right':
-      return { x: shape.x + shape.width, y: centerY, side: 'right' };
-    case 'bottom':
-      return { x: centerX, y: shape.y + shape.height, side: 'bottom' };
-    case 'left':
-      return { x: shape.x, y: centerY, side: 'left' };
+    case ShapeSide.top:
+      return { x: centerX, y: shape.y, side: ShapeSide.top };
+    case ShapeSide.right:
+      return { x: shape.x + shape.width, y: centerY, side: ShapeSide.right };
+    case ShapeSide.bottom:
+      return { x: centerX, y: shape.y + shape.height, side: ShapeSide.bottom };
+    case ShapeSide.left:
+      return { x: shape.x, y: centerY, side: ShapeSide.left };
   }
 }
 
@@ -55,7 +57,7 @@ function distance(p1: Point, p2: Point): number {
 }
 
 // Find the closest anchor points between two shapes
-function findClosestAnchorPoints(shape1: any, shape2: any): { start: AnchorPoint, end: AnchorPoint } {
+function findClosestAnchorPoints(shape1: Shape, shape2: Shape): { start: AnchorPoint, end: AnchorPoint } {
   const anchors1 = getAnchorPoints(shape1);
   const anchors2 = getAnchorPoints(shape2);
 
@@ -80,20 +82,18 @@ function applyOffsetToAnchorPoint(anchorPoint: AnchorPoint, offsetValue: number)
   const { x, y, side } = anchorPoint;
 
   switch (side) {
-    case 'top':
+    case ShapeSide.top:
       return { x, y: y - offsetValue, side };
-    case 'bottom':
+    case ShapeSide.bottom:
       return { x, y: y + offsetValue, side };
-    case 'left':
+    case ShapeSide.left:
       return { x: x - offsetValue, y, side };
-    case 'right':
+    case ShapeSide.right:
       return { x: x + offsetValue, y, side };
     default:
       return anchorPoint;
   }
 }
-
-
 
 // Generate connector between two selected objects
 function generateConnector(settings: ConnectorSettings) {
@@ -116,11 +116,11 @@ function generateConnector(settings: ConnectorSettings) {
 
   if (settings.startAnchor && settings.endAnchor) {
     // Both anchors manually selected
-    start = getAnchorPointBySide(shape1, settings.startAnchor as 'top' | 'right' | 'bottom' | 'left');
-    end = getAnchorPointBySide(shape2, settings.endAnchor as 'top' | 'right' | 'bottom' | 'left');
+    start = getAnchorPointBySide(shape1, settings.startAnchor);
+    end = getAnchorPointBySide(shape2, settings.endAnchor);
   } else if (settings.startAnchor) {
     // Only start anchor manually selected
-    start = getAnchorPointBySide(shape1, settings.startAnchor as 'top' | 'right' | 'bottom' | 'left');
+    start = getAnchorPointBySide(shape1, settings.startAnchor);
     // Find closest anchor on shape2 to the selected start anchor
     const anchors2 = getAnchorPoints(shape2);
     let minDistance = Infinity;
@@ -134,7 +134,7 @@ function generateConnector(settings: ConnectorSettings) {
     }
   } else if (settings.endAnchor) {
     // Only end anchor manually selected
-    end = getAnchorPointBySide(shape2, settings.endAnchor as 'top' | 'right' | 'bottom' | 'left');
+    end = getAnchorPointBySide(shape2, settings.endAnchor);
     // Find closest anchor on shape1 to the selected end anchor
     const anchors1 = getAnchorPoints(shape1);
     let minDistance = Infinity;
