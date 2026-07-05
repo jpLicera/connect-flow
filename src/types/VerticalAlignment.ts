@@ -1,5 +1,5 @@
 export enum VerticalAlignment {
-	lower = "l",
+	down = "d",
 	center = "c",
-	higher = "h"
+	up = "u"
 }
