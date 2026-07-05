@@ -2,6 +2,12 @@ import { AnchorPoint } from "./types/AnchorPoints";
 import { ConnectorTypeOptions } from "./types/ConnectorTypeOptions";
 import { Point } from "./types/Point";
 import { ShapeSide } from "./types/ShapeSide";
+import { SidePair } from "./types/ShapeSidePair";
+import { path_drawing_map } from "./path-drawing-map";
+import { AlignmentPair } from "./types/AlignmentPair";
+import { VerticalAlignment } from "./types/VerticalAlignment";
+import { HorizontalAlignment } from "./types/HorizontalAlignment";
+import { PathDrawingParameters } from "./types/PathDrawingParameters";
 
 /**
  * Genera el path SVG según el tipo de conector seleccionado
@@ -13,7 +19,7 @@ export function generatePath(options: ConnectorTypeOptions): string {
 		case 'direct':
 			return generateDirectPath(startPoint, endPoint);
 		case 'orthogonal':
-			return generateOrthogonalPath(startPoint, endPoint, options.strokeWidth);
+			return generateOrthogonalPath(options);
 		case 'curve':
 			return generateCurvePath(startPoint, endPoint);
 		default:
@@ -32,59 +38,51 @@ function generateDirectPath(start: Point, end: Point): string {
  * Modo Orthogonal: Conexión con ángulos rectos (90 grados)
  * Maneja diferentes tipos de conexiones según los lados de anclaje
  */
-function generateOrthogonalPath(start: AnchorPoint, end: AnchorPoint, strokeWidth: number): string {
-	const { x: x1, y: y1, side: startSide } = start;
-	const { x: x2, y: y2, side: endSide } = end;
+function generateOrthogonalPath(options: ConnectorTypeOptions): string {
+	const dx = options.endPoint.x - options.startPoint.x;
+	const dy = options.endPoint.y - options.startPoint.y;
 
-	const deltaX = x2 - x1;
-	const deltaY = y2 - y1;
-
-	// Clasificar el tipo de conexión basado en los lados de anclaje
-	const startIsHorizontal = startSide === ShapeSide.left || startSide === ShapeSide.right;
-	const endIsHorizontal = endSide === ShapeSide.left || endSide === ShapeSide.right;
-	const startIsVertical = startSide === ShapeSide.top || startSide === ShapeSide.bottom;
-	const endIsVertical = endSide === ShapeSide.top || endSide === ShapeSide.bottom;
+	const sidePair: SidePair = `${options.startPoint.side}${options.endPoint.side}`;
+	const alignmentPair: AlignmentPair = getAlignmentPair(dx, dy);
 
 	// clearance between the resulting path and the selected sides, used when the
 	// start and end points are aligned, and a u turn is needed instead of a zigzag
-	const alignedOffset = Math.floor(strokeWidth * 1.5);
+	const offset = Math.floor(options.strokeWidth * 1.5);
 
-	if (startIsHorizontal && endIsHorizontal) {
-
-		const endsAreAligned = Math.abs(deltaX) < strokeWidth && startSide === endSide;
-
-		const offsetX = x1 + (endsAreAligned ? alignedOffset * (startSide === ShapeSide.left ? -1 : 1) : (deltaX / 2));
-
-		return `M ${x1} ${y1} L ${offsetX} ${y1} L ${offsetX} ${y2} L ${x2} ${y2}`;
-
-	} else if (startIsVertical && endIsVertical) {
-
-		const endsAreAligned = Math.abs(deltaY) < strokeWidth && startSide === endSide;
-
-		const offsetY = y1 + (endsAreAligned ? alignedOffset * (startSide === ShapeSide.top ? -1 : 1) : (deltaY / 2));
-
-		return `M ${x1} ${y1} L ${x1} ${offsetY} L ${x2} ${offsetY} L ${x2} ${y2}`;
-
-	} else if (startIsHorizontal && endIsVertical) {
-		// CASO MIXTO: left/right → top/bottom (una esquina)
-		return `M ${x1} ${y1} L ${x2} ${y1} L ${x2} ${y2}`;
-
-	} else if (startIsVertical && endIsHorizontal) {
-		// CASO MIXTO: top/bottom → left/right (una esquina)
-		return `M ${x1} ${y1} L ${x1} ${y2} L ${x2} ${y2}`;
-
-	} else {
-		// Fallback: usar distancia para determinar orientación principal
-		const isHorizontalPrimary = Math.abs(deltaX) > Math.abs(deltaY);
-		if (isHorizontalPrimary) {
-			return `M ${x1} ${y1} L ${x2} ${y1} L ${x2} ${y2}`;
-		} else {
-			return `M ${x1} ${y1} L ${x1} ${y2} L ${x2} ${y2}`;
-		}
+	const params: PathDrawingParameters = {
+		x1: options.startPoint.x,
+		x2: options.endPoint.x,
+		y1: options.startPoint.y,
+		y2: options.endPoint.y,
+		dx,
+		dy,
+		adx: Math.abs(dx),
+		ady: Math.abs(dy),
+		o: offset,
 	}
+
+	return createOrthogonalPath(alignmentPair, sidePair, params);
 }
 
+function getAlignmentPair(deltaX: number, deltaY: number) : AlignmentPair {
+	const x = Math.round(deltaX);
+	const y = Math.round(deltaY);
 
+	const ha : HorizontalAlignment = x === 0 ? HorizontalAlignment.center : x < 0 ? HorizontalAlignment.left : HorizontalAlignment.right;
+	const va : VerticalAlignment = y === 0 ? VerticalAlignment.center : y > 0 ? VerticalAlignment.down : VerticalAlignment.up
+
+	const result = `${ha}${va}`;
+
+	if (result == "cc") {
+		throw new Error("The start and end points are overlapping!");
+	}
+
+	return result as AlignmentPair;
+}
+
+function createOrthogonalPath(alignmentPair: AlignmentPair, sidePair: SidePair, params: PathDrawingParameters) {
+	return `M ${params.x1} ${params.y1} ${path_drawing_map[alignmentPair][sidePair](params)} L ${params.x2} ${params.y2}`;
+}
 
 /**
  * Modo Curve: Conexión con curvas suaves
