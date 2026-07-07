@@ -23,12 +23,11 @@ body {
 }
 
 .plugin-container {
-  padding: 16px;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   min-height: 100vh;
-}
-
-.section {
-  margin-bottom: 16px;
 }
 
 /* Color and Opacity Section */
@@ -850,3 +849,4 @@ body[data-theme="light"] .input-label {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
