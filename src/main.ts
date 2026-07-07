@@ -27,15 +27,15 @@ let colorPicker: ColorPicker | null = null;
 
 // Update UI elements with current settings
 function updateUI() {
-  const colorSwatch = document.querySelector(".color-swatch") as HTMLElement;
-  const colorLabel = document.querySelector(".color-label") as HTMLElement;
-  const opacityValue = document.querySelector(".opacity-value") as HTMLElement;
-  const strokeInput = document.querySelector(".stroke-input") as HTMLInputElement;
-  const offsetInput = document.querySelector(".offset-input") as HTMLInputElement;
-  const styleDropdown = document.querySelector("[data-setting='style']") as HTMLSelectElement;
-  const startArrowDropdown = document.querySelector("[data-setting='startArrow']") as HTMLSelectElement;
-  const endArrowDropdown = document.querySelector("[data-setting='endArrow']") as HTMLSelectElement;
-  const connectorTypeDropdown = document.querySelector("[data-setting='connectorType']") as HTMLSelectElement;
+  const colorSwatch = document.getElementById("colorSwatch") as HTMLElement;
+  const colorLabel = document.getElementById("colorLabel") as HTMLElement;
+  const opacityValue = document.getElementById("opacityValue") as HTMLElement;
+  const strokeInput = document.getElementById("strokeInput") as HTMLInputElement;
+  const offsetInput = document.getElementById("offsetInput") as HTMLInputElement;
+  const styleDropdown = document.getElementById("styleSelect") as HTMLSelectElement;
+  const startArrowDropdown = document.getElementById("startCapSelect") as HTMLSelectElement;
+  const endArrowDropdown = document.getElementById("endCapSelect") as HTMLSelectElement;
+  const connectorTypeDropdown = document.getElementById("connectorTypeSelect") as HTMLSelectElement;
 
   if (colorSwatch) {
     colorSwatch.style.backgroundColor = settings.color;
@@ -75,7 +75,7 @@ function updateUI() {
 }
 
 // Event listeners for UI controls
-document.querySelector(".color-swatch")?.addEventListener("click", () => {
+document.getElementById("colorSwatch")?.addEventListener("click", () => {
   if (colorPicker) {
     colorPicker.destroy();
   }
@@ -109,7 +109,7 @@ document.querySelectorAll(".dropdown").forEach(dropdown => {
 });
 
 // Prevenir entrada de caracteres no numéricos en el input de stroke-width
-document.querySelector(".stroke-input")?.addEventListener("keydown", (e) => {
+document.getElementById("strokeInput")?.addEventListener("keydown", (e) => {
   const key = (e as KeyboardEvent).key;
   // Permitir: backspace, delete, tab, escape, enter, home, end, left, right, up, down
   if ([
@@ -128,7 +128,7 @@ document.querySelector(".stroke-input")?.addEventListener("keydown", (e) => {
   }
 });
 
-document.querySelector(".stroke-input")?.addEventListener("input", (e) => {
+document.getElementById("strokeInput")?.addEventListener("input", (e) => {
   const target = e.target as HTMLInputElement;
 
   // Remover cualquier carácter que no sea número
@@ -151,7 +151,7 @@ document.querySelector(".stroke-input")?.addEventListener("input", (e) => {
 });
 
 // Prevenir entrada de caracteres no numéricos en el input de offset
-document.querySelector(".offset-input")?.addEventListener("keydown", (e) => {
+document.getElementById("offsetInput")?.addEventListener("keydown", (e) => {
   const key = (e as KeyboardEvent).key;
   // Permitir: backspace, delete, tab, escape, enter, home, end, left, right, up, down
   if ([
@@ -170,7 +170,7 @@ document.querySelector(".offset-input")?.addEventListener("keydown", (e) => {
   }
 });
 
-document.querySelector(".offset-input")?.addEventListener("input", (e) => {
+document.getElementById("offsetInput")?.addEventListener("input", (e) => {
   const target = e.target as HTMLInputElement;
 
   // Remover cualquier carácter que no sea número
@@ -193,13 +193,13 @@ document.querySelector(".offset-input")?.addEventListener("input", (e) => {
   }
 });
 
-document.querySelector("[data-setting='drawOnSelection']")?.addEventListener("change", (e) => {
+document.getElementById("drawOnSelectionInput")?.addEventListener("change", (e) => {
   const target = e.target as HTMLInputElement;
   settings.drawOnSelection = target.checked;
   parent.postMessage({ type: "settings-changed", settings }, "*");
 });
 
-document.querySelector("[data-handler='generate-connector']")?.addEventListener("click", () => {
+document.getElementById("generateButton")?.addEventListener("click", () => {
   parent.postMessage({ type: "generate-connector", settings }, "*");
 });
 

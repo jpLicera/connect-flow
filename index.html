@@ -11,12 +11,12 @@
       <div>
         <div class="color-opacity-row">
           <div class="color-picker">
-            <div class="color-swatch" data-color="#FF6FE0"></div>
-            <span class="color-label">FF6FE0</span>
+            <div id="colorSwatch" class="color-swatch" data-color="#FF6FE0"></div>
+            <span id="colorLabel" class="color-label">FF6FE0</span>
           </div>
           <div class="opacity-control">
             <span class="opacity-icon">%</span>
-            <span class="opacity-value">100</span>
+            <span id="opacityValue" class="opacity-value">100</span>
           </div>
         </div>
       </div>
@@ -26,15 +26,15 @@
         <div class="stroke-row">
           <div class="stroke-width">
             <div class="stroke-icon">≡</div>
-            <input type="number" class="stroke-input" min="1" max="100" value="2" data-setting="strokeWidth">
+            <input id="strokeInput" type="number" class="stroke-input" min="1" max="100" value="2" data-setting="strokeWidth">
           </div>
           <div class="dropdown-group">
-            <select class="dropdown" data-setting="connectorType">
+            <select id="connectorTypeSelect" class="dropdown" data-setting="connectorType">
               <option value="direct" selected>Direct</option>
               <option value="orthogonal">Orthogonal</option>
               <option value="curve">Curve</option>
             </select>
-            <select class="dropdown" data-setting="style">
+            <select id="styleSelect" class="dropdown" data-setting="style">
               <option value="solid" selected>Solid</option>
               <option value="dashed">Dashed</option>
               <option value="dotted">Dotted</option>
@@ -47,7 +47,7 @@
       <!-- Arrow Settings -->
       <div>
         <div class="arrow-row">
-          <select class="dropdown arrow-start" data-setting="startArrow">
+          <select id="startCapSelect" class="dropdown arrow-start" data-setting="startArrow">
             <option value="none" selected>None</option>
             <option value="line-arrow">Arrow</option>
             <option value="triangle-arrow">Triangle</option>
@@ -60,7 +60,7 @@
           <div class="arrow-direction">
             <span class="arrow-icon">→</span>
           </div>
-          <select class="dropdown arrow-end" data-setting="endArrow">
+          <select id="endCapSelect" class="dropdown arrow-end" data-setting="endArrow">
             <option value="none" selected>None</option>
             <option value="line-arrow">Arrow</option>
             <option value="triangle-arrow">Triangle</option>
@@ -72,7 +72,7 @@
           </select>
           <div class="offset-control">
             <div class="offset-icon">↔</div>
-            <input type="number" class="offset-input" min="0" max="200" value="0" data-setting="offset">
+            <input id="offsetInput" type="number" class="offset-input" min="0" max="200" value="0" data-setting="offset">
           </div>
         </div>
       </div>
@@ -102,7 +102,7 @@
       <!-- Controls -->
       <div class="controls-section">
         <label class="checkbox-container">
-          <input type="checkbox" data-setting="drawOnSelection">
+          <input id="drawOnSelectionInput" type="checkbox" data-setting="drawOnSelection">
           <span class="checkmark">✓</span>
           <span class="checkbox-label">Draw on selection</span>
         </label>
@@ -112,7 +112,7 @@
           <option value="start">Start</option>
           <option value="end">End</option>
         </select>
-        <button type="button" data-appearance="primary" data-handler="generate-connector">
+        <button id="generateButton" type="button" data-appearance="primary" data-handler="generate-connector">
           GENERATE
         </button>
       </div>
