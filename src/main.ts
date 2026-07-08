@@ -22,47 +22,33 @@ const settings: ConnectorSettings = {
   selectionType: "connector"
 };
 
-function updateUI() {
-  const strokeInput = document.getElementById("strokeInput") as HTMLInputElement;
-  const offsetInput = document.getElementById("offsetInput") as HTMLInputElement;
-  const styleDropdown = document.getElementById("styleSelect") as HTMLSelectElement;
-  const startArrowDropdown = document.getElementById("startCapSelect") as HTMLSelectElement;
-  const endArrowDropdown = document.getElementById("endCapSelect") as HTMLSelectElement;
-  const connectorTypeDropdown = document.getElementById("connectorTypeSelect") as HTMLSelectElement;
-  const colorInput = document.getElementById("colorInput") as HTMLInputElement;
-  const colorPreview = document.getElementById("colorPreview") as HTMLDivElement;
-  const opacityInput = document.getElementById("opacityInput") as HTMLInputElement;
+function updateUI(s: ConnectorSettings) {
+	const strokeInput = document.getElementById("strokeInput") as HTMLInputElement;
+	strokeInput.value = s.strokeWidth.toString();
 
-  if (strokeInput) {
-    strokeInput.value = settings.strokeWidth.toString();
-  }
+	const offsetInput = document.getElementById("offsetInput") as HTMLInputElement;
+	offsetInput.value = s.offset.toString();
 
-  if (offsetInput) {
-    offsetInput.value = settings.offset.toString();
-  }
+	const styleDropdown = document.getElementById("styleSelect") as HTMLSelectElement;
+	styleDropdown.value = s.style;
 
-  if (styleDropdown) {
-    styleDropdown.value = settings.style;
-  }
+	const startArrowDropdown = document.getElementById("startCapSelect") as HTMLSelectElement;
+	startArrowDropdown.value = s.startArrow;
 
-  if (startArrowDropdown) {
-    startArrowDropdown.value = settings.startArrow;
-  }
+	const endArrowDropdown = document.getElementById("endCapSelect") as HTMLSelectElement;
+	endArrowDropdown.value = s.endArrow;
 
-  if (endArrowDropdown) {
-    endArrowDropdown.value = settings.endArrow;
-  }
+	const connectorTypeDropdown = document.getElementById("connectorTypeSelect") as HTMLSelectElement;
+	connectorTypeDropdown.value = s.connectorType;
 
-  if (connectorTypeDropdown) {
-    connectorTypeDropdown.value = settings.connectorType;
-  }
+	const colorInput = document.getElementById("colorInput") as HTMLInputElement;
+	colorInput.value = s.color.slice(1);
 
-	if (colorPreview) {
-		colorInput.value = settings.color.slice(1);
-		colorPreview.style.backgroundColor = settings.color;
-	}
+	const colorPreview = document.getElementById("colorPreview") as HTMLDivElement;
+	colorPreview.style.backgroundColor = s.color;
 
-	opacityInput.value = settings.opacity.toString();
+	const opacityInput = document.getElementById("opacityInput") as HTMLInputElement;
+	opacityInput.value = s.opacity.toString();
 }
 
 // Event listeners for UI controls
@@ -75,7 +61,7 @@ document.getElementById("colorInput")?.addEventListener("input", event => {
 	}
 
 	settings.color = `#${inputElement.value}`;
-	updateUI();
+	updateUI(settings);
 	parent.postMessage({ type: "settings-changed", settings }, "*");
 });
 
@@ -87,7 +73,7 @@ document.getElementById("opacityInput")?.addEventListener("input", event => {
 	}
 
 	settings.opacity = parseInt(inputElement.value);
-	updateUI();
+	updateUI(settings);
 	parent.postMessage({ type: "settings-changed", settings }, "*");
 });
 
@@ -357,6 +343,6 @@ function showNotification(message: string) {
 
 // Initialize UI on load
 document.addEventListener('DOMContentLoaded', () => {
-  updateUI();
+  updateUI(settings);
   setupAnchorPointListeners();
 });
