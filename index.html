@@ -101,11 +101,11 @@
 
       <!-- Controls -->
       <div class="controls-section">
-        <label class="checkbox-container">
-          <input id="drawOnSelectionInput" type="checkbox" data-setting="drawOnSelection">
-          <span class="checkmark">✓</span>
-          <span class="checkbox-label">Draw on selection</span>
+        <label class="switch-container">
+          <input type="checkbox" class="checkbox-hidden" aria-labelledby="drawOnSelectionInputLabel" id="drawOnSelectionInput">
+          <span class="switch-slider"></span>
         </label>
+        <label for="drawOnSelectionInput" id="drawOnSelectionInputLabel" class="body-m">Draw on selection</label>
         <select class="dropdown" data-setting="selectionType">
           <option value="connector" selected>Connector</option>
           <option value="maintain">Maintain</option>

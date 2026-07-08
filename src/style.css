@@ -346,42 +346,6 @@ body {
   gap: 16px;
 }
 
-.checkbox-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.checkbox-container input[type="checkbox"] {
-  display: none;
-}
-
-.checkmark {
-  width: 20px;
-  height: 20px;
-  background-color: var(--da-primary);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  color: var(--db-secondary);
-  font-weight: bold;
-}
-
-.checkbox-container input[type="checkbox"]:not(:checked)+.checkmark {
-  background-color: var(--db-quaternary);
-  border: 1px solid var(--bd-tertiary);
-  color: transparent;
-}
-
-.checkbox-label {
-  font-size: 14px;
-  color: var(--df-primary);
-}
-
 .generate-btn {
   background-color: var(--da-primary);
   color: var(--db-secondary);
@@ -549,20 +513,6 @@ body[data-theme="light"] .text-input::placeholder {
 }
 
 /* Controls Section - Light Theme */
-body[data-theme="light"] .checkmark {
-  background-color: var(--la-primary);
-  color: var(--lf-inverse);
-}
-
-body[data-theme="light"] .checkbox-container input[type="checkbox"]:not(:checked)+.checkmark {
-  background-color: var(--lb-quaternary);
-  border: 1px solid var(--bd-tertiary);
-}
-
-body[data-theme="light"] .checkbox-label {
-  color: var(--lf-primary);
-}
-
 body[data-theme="light"] .generate-btn {
   background-color: var(--la-primary);
   color: var(--lf-inverse);
