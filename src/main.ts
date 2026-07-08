@@ -31,6 +31,7 @@ function updateUI() {
   const connectorTypeDropdown = document.getElementById("connectorTypeSelect") as HTMLSelectElement;
   const colorInput = document.getElementById("colorInput") as HTMLInputElement;
   const colorPreview = document.getElementById("colorPreview") as HTMLDivElement;
+  const opacityInput = document.getElementById("opacityInput") as HTMLInputElement;
 
   if (strokeInput) {
     strokeInput.value = settings.strokeWidth.toString();
@@ -60,6 +61,8 @@ function updateUI() {
 		colorInput.value = settings.color.slice(1);
 		colorPreview.style.backgroundColor = settings.color;
 	}
+
+	opacityInput.value = settings.opacity.toString();
 }
 
 // Event listeners for UI controls
@@ -72,6 +75,18 @@ document.getElementById("colorInput")?.addEventListener("input", event => {
 	}
 
 	settings.color = `#${inputElement.value}`;
+	updateUI();
+	parent.postMessage({ type: "settings-changed", settings }, "*");
+});
+
+document.getElementById("opacityInput")?.addEventListener("input", event => {
+	const inputElement = event.target as HTMLInputElement;
+
+	if (!inputElement.checkValidity()) {
+		return;
+	}
+
+	settings.opacity = parseInt(inputElement.value);
 	updateUI();
 	parent.postMessage({ type: "settings-changed", settings }, "*");
 });
