@@ -8,16 +8,15 @@
   <body>
     <div class="plugin-container">
 
-      <div class="color-opacity-row">
-        <div class="color-picker">
-          <div id="colorSwatch" class="color-swatch" data-color="#FF6FE0"></div>
-          <span id="colorLabel" class="color-label">FF6FE0</span>
-        </div>
-        <div class="opacity-control">
-          <span class="opacity-icon">%</span>
-          <span id="opacityValue" class="opacity-value">100</span>
-        </div>
-      </div>
+			<div class="color-input">
+				<div class="color-input__color">
+					<div id="colorPreview" class="color-input__preview"></div>
+					<input id="colorInput" class="input input--color" type="text" pattern="[0-9a-fA-F]{6}" maxlength="6">
+				</div>
+				<div class="color-input__opacity">
+					<input id="opacityInput" class="input input--opacity" type="number" max="100" min="0">
+				</div>
+			</div>
 
       <div class="stroke-row">
         <div class="stroke-width">

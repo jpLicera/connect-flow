@@ -1,5 +1,4 @@
 import "./style.css";
-import { ColorPicker } from "./colorPicker";
 import { ConnectorSettings } from "./types/ConnectorSettings";
 import { ShapeSide } from "./types/ShapeSide";
 
@@ -23,31 +22,15 @@ const settings: ConnectorSettings = {
   selectionType: "connector"
 };
 
-let colorPicker: ColorPicker | null = null;
-
-// Update UI elements with current settings
 function updateUI() {
-  const colorSwatch = document.getElementById("colorSwatch") as HTMLElement;
-  const colorLabel = document.getElementById("colorLabel") as HTMLElement;
-  const opacityValue = document.getElementById("opacityValue") as HTMLElement;
   const strokeInput = document.getElementById("strokeInput") as HTMLInputElement;
   const offsetInput = document.getElementById("offsetInput") as HTMLInputElement;
   const styleDropdown = document.getElementById("styleSelect") as HTMLSelectElement;
   const startArrowDropdown = document.getElementById("startCapSelect") as HTMLSelectElement;
   const endArrowDropdown = document.getElementById("endCapSelect") as HTMLSelectElement;
   const connectorTypeDropdown = document.getElementById("connectorTypeSelect") as HTMLSelectElement;
-
-  if (colorSwatch) {
-    colorSwatch.style.backgroundColor = settings.color;
-  }
-
-  if (colorLabel) {
-    colorLabel.textContent = settings.color.replace("#", "").toUpperCase();
-  }
-
-  if (opacityValue) {
-    opacityValue.textContent = Math.round(settings.opacity).toString();
-  }
+  const colorInput = document.getElementById("colorInput") as HTMLInputElement;
+  const colorPreview = document.getElementById("colorPreview") as HTMLDivElement;
 
   if (strokeInput) {
     strokeInput.value = settings.strokeWidth.toString();
@@ -72,29 +55,25 @@ function updateUI() {
   if (connectorTypeDropdown) {
     connectorTypeDropdown.value = settings.connectorType;
   }
+
+	if (colorPreview) {
+		colorInput.value = settings.color.slice(1);
+		colorPreview.style.backgroundColor = settings.color;
+	}
 }
 
 // Event listeners for UI controls
-document.getElementById("colorSwatch")?.addEventListener("click", () => {
-  if (colorPicker) {
-    colorPicker.destroy();
-  }
 
-  colorPicker = new ColorPicker({
-    initialColor: settings.color,
-    initialOpacity: settings.opacity,
-    onColorChange: (color: string, opacity: number) => {
-      settings.color = color;
-      settings.opacity = opacity;
-      updateUI();
-      parent.postMessage({ type: "settings-changed", settings }, "*");
-    },
-    onClose: () => {
-      colorPicker = null;
-    }
-  });
+document.getElementById("colorInput")?.addEventListener("input", event => {
+	const inputElement = event.target as HTMLInputElement;
 
-  colorPicker.show();
+	if (!inputElement.checkValidity()) {
+		return;
+	}
+
+	settings.color = `#${inputElement.value}`;
+	updateUI();
+	parent.postMessage({ type: "settings-changed", settings }, "*");
 });
 
 document.querySelectorAll(".dropdown").forEach(dropdown => {
