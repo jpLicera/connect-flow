@@ -8,68 +8,62 @@
   <body>
     <div class="plugin-container">
 
-      <div>
-        <div class="color-opacity-row">
-          <div class="color-picker">
-            <div id="colorSwatch" class="color-swatch" data-color="#FF6FE0"></div>
-            <span id="colorLabel" class="color-label">FF6FE0</span>
-          </div>
-          <div class="opacity-control">
-            <span class="opacity-icon">%</span>
-            <span id="opacityValue" class="opacity-value">100</span>
-          </div>
+      <div class="color-opacity-row">
+        <div class="color-picker">
+          <div id="colorSwatch" class="color-swatch" data-color="#FF6FE0"></div>
+          <span id="colorLabel" class="color-label">FF6FE0</span>
+        </div>
+        <div class="opacity-control">
+          <span class="opacity-icon">%</span>
+          <span id="opacityValue" class="opacity-value">100</span>
         </div>
       </div>
 
-      <div>
-        <div class="stroke-row">
-          <div class="stroke-width">
-            <div class="stroke-icon">≡</div>
-            <input id="strokeInput" type="number" class="stroke-input" min="1" max="100" value="2">
-          </div>
-          <select id="connectorTypeSelect" class="dropdown" data-setting="connectorType">
-            <option value="direct" selected>Direct</option>
-            <option value="orthogonal">Orthogonal</option>
-            <option value="curve">Curve</option>
-          </select>
-          <select id="styleSelect" class="dropdown" data-setting="style">
-            <option value="solid" selected>Solid</option>
-            <option value="dashed">Dashed</option>
-            <option value="dotted">Dotted</option>
-            <option value="mixed">Mixed</option>
-          </select>
+      <div class="stroke-row">
+        <div class="stroke-width">
+          <div class="stroke-icon">≡</div>
+          <input id="strokeInput" type="number" class="stroke-input" min="1" max="100" value="2">
         </div>
+        <select id="connectorTypeSelect" class="dropdown" data-setting="connectorType">
+          <option value="direct" selected>Direct</option>
+          <option value="orthogonal">Orthogonal</option>
+          <option value="curve">Curve</option>
+        </select>
+        <select id="styleSelect" class="dropdown" data-setting="style">
+          <option value="solid" selected>Solid</option>
+          <option value="dashed">Dashed</option>
+          <option value="dotted">Dotted</option>
+          <option value="mixed">Mixed</option>
+        </select>
       </div>
 
-      <div>
-        <div class="arrow-row">
-          <select id="startCapSelect" class="dropdown arrow-start" data-setting="startArrow">
-            <option value="none" selected>None</option>
-            <option value="line-arrow">Arrow</option>
-            <option value="triangle-arrow">Triangle</option>
-            <option value="square-marker">Rect</option>
-            <option value="circle-marker">Circle</option>
-            <option value="diamond-marker">Diamond</option>
-            <option value="round">Rounded</option>
-            <option value="square">Squared</option>
-          </select>
-          <div class="arrow-direction">
-            <span class="arrow-icon">→</span>
-          </div>
-          <select id="endCapSelect" class="dropdown arrow-end" data-setting="endArrow">
-            <option value="none" selected>None</option>
-            <option value="line-arrow">Arrow</option>
-            <option value="triangle-arrow">Triangle</option>
-            <option value="square-marker">Rect</option>
-            <option value="circle-marker">Circle</option>
-            <option value="diamond-marker">Diamond</option>
-            <option value="round">Rounded</option>
-            <option value="square">Squared</option>
-          </select>
-          <div class="offset-control">
-            <div class="offset-icon">↔</div>
-            <input id="offsetInput" type="number" class="offset-input" min="0" max="200" value="0">
-          </div>
+      <div class="arrow-row">
+        <select id="startCapSelect" class="dropdown arrow-start" data-setting="startArrow">
+          <option value="none" selected>None</option>
+          <option value="line-arrow">Arrow</option>
+          <option value="triangle-arrow">Triangle</option>
+          <option value="square-marker">Rect</option>
+          <option value="circle-marker">Circle</option>
+          <option value="diamond-marker">Diamond</option>
+          <option value="round">Rounded</option>
+          <option value="square">Squared</option>
+        </select>
+        <div class="arrow-direction">
+          <span class="arrow-icon">→</span>
+        </div>
+        <select id="endCapSelect" class="dropdown arrow-end" data-setting="endArrow">
+          <option value="none" selected>None</option>
+          <option value="line-arrow">Arrow</option>
+          <option value="triangle-arrow">Triangle</option>
+          <option value="square-marker">Rect</option>
+          <option value="circle-marker">Circle</option>
+          <option value="diamond-marker">Diamond</option>
+          <option value="round">Rounded</option>
+          <option value="square">Squared</option>
+        </select>
+        <div class="offset-control">
+          <div class="offset-icon">↔</div>
+          <input id="offsetInput" type="number" class="offset-input" min="0" max="200" value="0">
         </div>
       </div>
 
