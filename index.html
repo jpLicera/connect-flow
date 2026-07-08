@@ -18,7 +18,7 @@
 				</div>
 			</div>
 
-      <div class="stroke-row">
+      <div class="row">
         <div class="stroke-width">
           <div class="stroke-icon">≡</div>
           <input id="strokeInput" type="number" class="stroke-input" min="1" max="100" value="2">
@@ -36,7 +36,7 @@
         </select>
       </div>
 
-      <div class="arrow-row">
+      <div class="row">
         <select id="startCapSelect" class="dropdown arrow-start" data-setting="startArrow">
           <option value="none" selected>None</option>
           <option value="line-arrow">Arrow</option>
@@ -47,9 +47,7 @@
           <option value="round">Rounded</option>
           <option value="square">Squared</option>
         </select>
-        <div class="arrow-direction">
-          <span class="arrow-icon">→</span>
-        </div>
+        <span class="arrow-icon">→</span>
         <select id="endCapSelect" class="dropdown arrow-end" data-setting="endArrow">
           <option value="none" selected>None</option>
           <option value="line-arrow">Arrow</option>
@@ -66,7 +64,7 @@
         </div>
       </div>
 
-      <div class="preview-container">
+      <div class="row row--padded">
         <div class="preview-element left">
           <div class="anchor-point top" data-side="t"></div>
           <div class="anchor-point right" data-side="r"></div>
@@ -84,7 +82,7 @@
         </div>
       </div>
 
-      <div class="controls-section">
+      <div class="row">
         <label class="switch-container">
           <input type="checkbox" class="checkbox-hidden" aria-labelledby="drawOnSelectionInputLabel" id="drawOnSelectionInput">
           <span class="switch-slider"></span>

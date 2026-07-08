@@ -26,14 +26,18 @@ body {
   padding-top: 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   min-height: 100vh;
 }
 
-.stroke-row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
+.row {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+}
+
+.row--padded {
+	padding: 8px;
 }
 
 .stroke-width {
@@ -99,24 +103,9 @@ body {
   border-color: var(--ac-primary);
 }
 
-.arrow-row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
 .arrow-start,
 .arrow-end {
   flex: 1;
-}
-
-.arrow-direction {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  padding: 12px;
-  min-width: 48px;
 }
 
 .arrow-icon {
@@ -165,14 +154,6 @@ body {
 .offset-input[type=number] {
   -moz-appearance: textfield;
   appearance: textfield;
-}
-
-.preview-container {
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
 }
 
 .preview-element {
@@ -253,13 +234,6 @@ body {
   margin: 0 8px;
 }
 
-.controls-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-}
-
 body[data-theme="light"] {
   background-color: var(--lb-primary);
   color: var(--lf-primary);
@@ -298,15 +272,6 @@ body[data-theme="light"] .dropdown:hover {
 
 body[data-theme="light"] .dropdown:focus {
   border-color: var(--ac-primary);
-}
-
-body[data-theme="light"] .arrow-direction {
-  background-color: var(--lb-tertiary);
-  border: 1px solid var(--bd-tertiary);
-}
-
-body[data-theme="light"] .arrow-direction:hover {
-  background-color: var(--lb-quaternary);
 }
 
 body[data-theme="light"] .arrow-icon {
