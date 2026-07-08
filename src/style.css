@@ -226,15 +226,8 @@ body {
   appearance: textfield;
 }
 
-/* Preview Section */
-.preview-section {
-  background-color: var(--db-secondary);
-  border-radius: 8px;
-  padding: 28px 16px;
-  border: 1px solid var(--bd-secondary);
-}
-
 .preview-container {
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -272,7 +265,7 @@ body {
   width: 16px;
   height: 16px;
   background-color: var(--db-quaternary);
-  border: 2px solid var(--db-secondary);
+  border: 2px solid var(--db-primary);
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
@@ -460,12 +453,6 @@ body[data-theme="light"] .offset-icon {
 
 body[data-theme="light"] .offset-input {
   color: var(--lf-primary);
-}
-
-/* Preview Section - Light Theme */
-body[data-theme="light"] .preview-section {
-  background-color: var(--lb-secondary);
-  border: 1px solid var(--bd-secondary);
 }
 
 body[data-theme="light"] .preview-element {
