@@ -129,12 +129,6 @@ body {
   appearance: textfield;
 }
 
-.dropdown-group {
-  display: flex;
-  gap: 8px;
-  flex: 1;
-}
-
 .dropdown {
   background-color: var(--db-tertiary);
   border: 1px solid var(--bd-tertiary);
