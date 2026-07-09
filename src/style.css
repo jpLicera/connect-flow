@@ -22,6 +22,11 @@ body {
   font-size: 14px;
 }
 
+.switch-container {
+	/* preserves the slider's width */
+	white-space: pre;
+}
+
 .plugin-container {
   padding-top: 16px;
   display: flex;
