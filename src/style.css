@@ -45,7 +45,7 @@ body {
 }
 
 .stroke-input::after {
-content: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' stroke='%238f9da3' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.333 6.667H3.667a.334.334 0 1 0 0 .666h8.666a.334.334 0 1 0 0-.666zm-9-5.334h9.334M12 12.667H4A.667.667 0 1 0 4 14h8a.667.667 0 0 0 0-1.333z'%3E%3C/path%3E%3C/svg%3E");
+	content: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' stroke='%238f9da3' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.333 6.667H3.667a.334.334 0 1 0 0 .666h8.666a.334.334 0 1 0 0-.666zm-9-5.334h9.334M12 12.667H4A.667.667 0 1 0 4 14h8a.667.667 0 0 0 0-1.333z'%3E%3C/path%3E%3C/svg%3E");
 	position: absolute;
 	top: 12px;
 	left: 8px;
@@ -85,47 +85,22 @@ content: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' stroke='%238f9da3' s
   color: var(--df-primary);
 }
 
-.offset-control {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--db-tertiary);
-  border-radius: 8px;
-  padding: 12px;
-  min-width: 60px;
-  height: 43px;
-}
-
-.offset-control:hover {
-  background-color: var(--db-quaternary);
-}
-
-.offset-icon {
-  font-size: 16px;
-  color: var(--df-primary);
-}
-
 .offset-input {
-  background-color: transparent;
-  border: none;
-  color: var(--df-primary);
-  font-size: 14px;
-  font-weight: 500;
-  width: 40px;
-  text-align: center;
-  outline: none;
+	position: relative;
 }
 
-.offset-input::-webkit-outer-spin-button,
-.offset-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  appearance: none;
-  margin: 0;
+.offset-input::after {
+	content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='%238f9da3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 4.5V8m0 0v3.5M15 8H1m0 0V4.5M1 8v3.5'/%3E%3C/svg%3E");
+	width: 12px;
+	height: 12px;
+	position: absolute;
+	top: 8px;
+	left: 8px;
+	user-select: none;
 }
 
-.offset-input[type=number] {
-  -moz-appearance: textfield;
-  appearance: textfield;
+.input--offset {
+	padding-left: 32px;
 }
 
 .preview-element {
@@ -230,23 +205,6 @@ body[data-theme="light"] .dropdown:focus {
 }
 
 body[data-theme="light"] .arrow-icon {
-  color: var(--lf-primary);
-}
-
-body[data-theme="light"] .offset-control {
-  background-color: var(--lb-tertiary);
-  border: 1px solid var(--bd-tertiary);
-}
-
-body[data-theme="light"] .offset-control:hover {
-  background-color: var(--lb-quaternary);
-}
-
-body[data-theme="light"] .offset-icon {
-  color: var(--lf-primary);
-}
-
-body[data-theme="light"] .offset-input {
   color: var(--lf-primary);
 }
 
