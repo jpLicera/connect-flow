@@ -34,6 +34,12 @@ body {
 	line-height: 1;
 }
 
+button,
+.headline-s,
+.body-m {
+	user-select: none;
+}
+
 .switch-container {
 	/* preserves the slider's width */
 	flex-shrink: 0;
