@@ -47,14 +47,26 @@ body {
   min-height: 100vh;
 }
 
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.section__body {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
 .row {
 	align-items: center;
 	display: flex;
-	gap: 12px;
+	gap: 4px;
 }
 
 .row--padded {
-	padding: 8px;
+	padding: 16px 8px;
 }
 
 .stroke-input {

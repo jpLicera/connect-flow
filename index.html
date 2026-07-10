@@ -1,102 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ConnectFlow</title>
-  </head>
-  <body>
-    <div class="plugin-container">
-
-			<div class="color-input">
-				<div class="color-input__color">
-					<div id="colorPreview" class="color-input__preview"></div>
-					<input id="colorInput" class="input input--color" type="text" pattern="[0-9a-fA-F]{6}" maxlength="6">
-				</div>
-				<div class="color-input__opacity">
-					<input id="opacityInput" class="input input--opacity" type="number" max="100" min="0">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>ConnectFlow</title>
+	</head>
+	<body>
+		<div class="plugin-container">
+			<div class="section">
+				<div class="headline-s">Behavior</div>
+				<div class="section__body">
+					<div class="row">
+						<select class="select" data-setting="selectionType">
+							<option value="connector" selected>Connector</option>
+							<option value="maintain">Maintain</option>
+							<option value="start">Start</option>
+							<option value="end">End</option>
+						</select>
+					</div>
+					<div class="row">
+						<label class="switch-container">
+							<input type="checkbox" class="checkbox-hidden" aria-labelledby="drawOnSelectionInputLabel" id="drawOnSelectionInput">
+							<span class="switch-slider"></span>
+						</label>
+						<label for="drawOnSelectionInput" id="drawOnSelectionInputLabel" class="body-m">Draw on selection</label>
+					</div>
 				</div>
 			</div>
+			<div class="section">
+				<div class="headline-s">Path</div>
+				<div class="section__body">
+					<div class="row">
+						<select id="connectorTypeSelect" class="select" data-setting="connectorType">
+							<option value="direct" selected>Direct</option>
+							<option value="orthogonal">Orthogonal</option>
+							<option value="curve">Curve</option>
+						</select>
+						<div class="offset-input">
+							<input id="offsetInput" type="number" class="input input--offset" min="0" max="200" value="0">
+						</div>
+					</div>
+					<div class="row row--padded">
+						<div class="preview-element">
+							<input class="anchor-point anchor-point--top" type="checkbox" value="t" data-setting="startAnchor">
+							<input class="anchor-point anchor-point--right" type="checkbox" value="r" data-setting="startAnchor">
+							<input class="anchor-point anchor-point--bottom" type="checkbox" value="b" data-setting="startAnchor">
+							<input class="anchor-point anchor-point--left" type="checkbox" value="l" data-setting="startAnchor">
+							<span id="leftPreviewText" class="preview-text"></span>
+						</div>
+						<div class="connector-arrow">→</div>
+						<div class="preview-element">
+							<input class="anchor-point anchor-point--top" type="checkbox" value="t" data-setting="endAnchor">
+							<input class="anchor-point anchor-point--right" type="checkbox" value="r" data-setting="endAnchor">
+							<input class="anchor-point anchor-point--bottom" type="checkbox" value="b" data-setting="endAnchor">
+							<input class="anchor-point anchor-point--left" type="checkbox" value="l" data-setting="endAnchor">
+							<span id="rightPreviewText" class="preview-text"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="section">
+				<div class="headline-s">Stroke</div>
+				<div class="section__body">
+					<div class="color-input">
+						<div class="color-input__color">
+							<div id="colorPreview" class="color-input__preview"></div>
+							<input id="colorInput" class="input input--color" type="text" pattern="[0-9a-fA-F]{6}" maxlength="6">
+						</div>
+						<div class="color-input__opacity">
+							<input id="opacityInput" class="input input--opacity" type="number" max="100" min="0">
+						</div>
+					</div>
+					<div class="row">
+						<div class="stroke-input">
+							<input id="strokeInput" type="number" class="input input--stroke" min="1" max="100" value="2">
+						</div>
+						<select id="styleSelect" class="select" data-setting="style">
+							<option value="solid" selected>Solid</option>
+							<option value="dashed">Dashed</option>
+							<option value="dotted">Dotted</option>
+							<option value="mixed">Mixed</option>
+						</select>
+					</div>
+					<div class="row">
+						<select id="startCapSelect" class="select" data-setting="startArrow">
+							<option value="none" selected>None</option>
+							<option value="line-arrow">Arrow</option>
+							<option value="triangle-arrow">Triangle</option>
+							<option value="square-marker">Rect</option>
+							<option value="circle-marker">Circle</option>
+							<option value="diamond-marker">Diamond</option>
+							<option value="round">Rounded</option>
+							<option value="square">Squared</option>
+						</select>
+						<button id="switchCapsButton" class="switch-button" type="button" data-appearance="secondary"></button>
+						<select id="endCapSelect" class="select" data-setting="endArrow">
+							<option value="none" selected>None</option>
+							<option value="line-arrow">Arrow</option>
+							<option value="triangle-arrow">Triangle</option>
+							<option value="square-marker">Rect</option>
+							<option value="circle-marker">Circle</option>
+							<option value="diamond-marker">Diamond</option>
+							<option value="round">Rounded</option>
+							<option value="square">Squared</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<button id="generateButton" type="button" data-appearance="primary" data-handler="generate-connector">GENERATE</button>
+			</div>
+		</div>
 
-      <div class="row">
-        <div class="stroke-input">
-          <input id="strokeInput" type="number" class="input input--stroke" min="1" max="100" value="2">
-        </div>
-        <select id="connectorTypeSelect" class="select" data-setting="connectorType">
-          <option value="direct" selected>Direct</option>
-          <option value="orthogonal">Orthogonal</option>
-          <option value="curve">Curve</option>
-        </select>
-        <select id="styleSelect" class="select" data-setting="style">
-          <option value="solid" selected>Solid</option>
-          <option value="dashed">Dashed</option>
-          <option value="dotted">Dotted</option>
-          <option value="mixed">Mixed</option>
-        </select>
-      </div>
-
-      <div class="row">
-        <select id="startCapSelect" class="select" data-setting="startArrow">
-          <option value="none" selected>None</option>
-          <option value="line-arrow">Arrow</option>
-          <option value="triangle-arrow">Triangle</option>
-          <option value="square-marker">Rect</option>
-          <option value="circle-marker">Circle</option>
-          <option value="diamond-marker">Diamond</option>
-          <option value="round">Rounded</option>
-          <option value="square">Squared</option>
-        </select>
-				<button id="switchCapsButton" class="switch-button" type="button" data-appearance="secondary"></button>
-        <select id="endCapSelect" class="select" data-setting="endArrow">
-          <option value="none" selected>None</option>
-          <option value="line-arrow">Arrow</option>
-          <option value="triangle-arrow">Triangle</option>
-          <option value="square-marker">Rect</option>
-          <option value="circle-marker">Circle</option>
-          <option value="diamond-marker">Diamond</option>
-          <option value="round">Rounded</option>
-          <option value="square">Squared</option>
-        </select>
-        <div class="offset-input">
-          <input id="offsetInput" type="number" class="input input--offset" min="0" max="200" value="0">
-        </div>
-      </div>
-      <div class="row row--padded">
-        <div class="preview-element">
-					<input class="anchor-point anchor-point--top" type="checkbox" value="t" data-setting="startAnchor">
-					<input class="anchor-point anchor-point--right" type="checkbox" value="r" data-setting="startAnchor">
-					<input class="anchor-point anchor-point--bottom" type="checkbox" value="b" data-setting="startAnchor">
-					<input class="anchor-point anchor-point--left" type="checkbox" value="l" data-setting="startAnchor">
-          <span id="leftPreviewText" class="preview-text"></span>
-        </div>
-        <div class="connector-arrow">→</div>
-        <div class="preview-element">
-					<input class="anchor-point anchor-point--top" type="checkbox" value="t" data-setting="endAnchor">
-					<input class="anchor-point anchor-point--right" type="checkbox" value="r" data-setting="endAnchor">
-					<input class="anchor-point anchor-point--bottom" type="checkbox" value="b" data-setting="endAnchor">
-					<input class="anchor-point anchor-point--left" type="checkbox" value="l" data-setting="endAnchor">
-          <span id="rightPreviewText" class="preview-text"></span>
-        </div>
-      </div>
-
-      <div class="row">
-        <label class="switch-container">
-          <input type="checkbox" class="checkbox-hidden" aria-labelledby="drawOnSelectionInputLabel" id="drawOnSelectionInput">
-          <span class="switch-slider"></span>
-        </label>
-        <label for="drawOnSelectionInput" id="drawOnSelectionInputLabel" class="body-m">Draw on selection</label>
-        <select class="select" data-setting="selectionType">
-          <option value="connector" selected>Connector</option>
-          <option value="maintain">Maintain</option>
-          <option value="start">Start</option>
-          <option value="end">End</option>
-        </select>
-        <button id="generateButton" type="button" data-appearance="primary" data-handler="generate-connector">
-          GENERATE
-        </button>
-      </div>
-    </div>
-
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+		<script type="module" src="/src/main.ts"></script>
+	</body>
 </html>
