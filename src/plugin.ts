@@ -1,8 +1,8 @@
 import { generatePath } from "./generate-path";
 import { ConnectorSettings } from "./types/ConnectorSettings";
 import { applyOffsetToAnchorPoints, getAnchorPoints } from "./anchor";
-import { Shape, StrokeCap } from "@penpot/plugin-types";
-import { SelectionType } from "./types/SelectionType";
+import { StrokeCap } from "@penpot/plugin-types";
+import { applySelectionSettings } from "./selection";
 
 penpot.ui.open("ConnectFlow", `?theme=${penpot.theme}`, { width: 500, height: 700 });
 
@@ -72,17 +72,6 @@ function generateConnector(settings: ConnectorSettings) {
 			message: 'Error creating connector. Please try again.'
 		});
 	}
-}
-
-function applySelectionSettings(selectionType: SelectionType, connector: Shape, shape1: Shape, shape2: Shape) : Shape[] {
-	const s = {
-		none: [],
-		start: [shape1],
-		end: [shape2],
-		connector: [connector]
-	}
-
-	return s[selectionType];
 }
 
 // Handle messages from UI
