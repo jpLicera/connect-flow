@@ -241,7 +241,7 @@ body[data-theme="light"] .connector-arrow {
 	width: 16px;
 	height: 16px;
 	position: absolute;
-	top: 10px;
+	top: 8px;
 	left: 10px;
 	border-radius: 4px;
 }
