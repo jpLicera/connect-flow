@@ -52,8 +52,6 @@ function updateUI(s: ConnectorSettings) {
 	opacityInput.value = s.opacity.toString();
 }
 
-// Event listeners for UI controls
-
 document.getElementById("colorInput")?.addEventListener("input", event => {
 	const inputElement = event.target as HTMLInputElement;
 
@@ -208,22 +206,45 @@ function setupAnchorPointListeners(key: "endAnchor" | "startAnchor") {
 	});
 }
 
-// Listen plugin.ts messages
 window.addEventListener("message", (event) => {
-  if (event.data.source === "penpot") {
-    document.body.dataset.theme = event.data.theme;
-  } else if (event.data.type === "notification") {
-    // Show notification to user
-    showNotification(event.data.message);
-  } else if (event.data.type === "selection-update") {
-    // Update preview elements with selected element names
-    updatePreviewElements(event.data.selection);
-		updateAnchorPointsVisualState("startAnchor");
-		updateAnchorPointsVisualState("endAnchor");
-  }
+
+	if (event.data.source === "penpot") {
+		document.body.dataset.theme = event.data.theme;
+		return;
+	}
+
+	if (event.data.type === "notification") {
+		showNotification(event.data.message);
+		return;
+	}
+
+	if (event.data.type === "selection-update") {
+		updateAnchorSettings(event.data.selection);
+		updatePreviewElements(event.data.selection);
+		updateAnchorPointsVisualState("startAnchor", settings);
+		updateAnchorPointsVisualState("endAnchor", settings);
+	}
+
 });
 
-function updatePreviewElements(selection: Shape[]) {
+function updateAnchorSettings(selection: Shape[]): void {
+	if (selection.length === 0) {
+		settings.startAnchor = null;
+		settings.endAnchor = null;
+	}
+
+	if (selection.length === 1) {
+		settings.endAnchor = null;
+	}
+
+	if (selection.length >= 2) {
+		return;
+	}
+
+	parent.postMessage({ type: "settings-changed", settings }, "*");
+}
+
+function updatePreviewElements(selection: Shape[]): void {
 	const leftPreviewText = document.getElementById("leftPreviewText") as HTMLElement;
 	const rightPreviewText = document.getElementById("rightPreviewText") as HTMLElement;
 
@@ -234,9 +255,6 @@ function updatePreviewElements(selection: Shape[]) {
 		leftPreviewText.classList.remove("preview-text--selected");
 		rightPreviewText.textContent = defaultRightText;
 		rightPreviewText.classList.remove("preview-text--selected");
-
-		settings.startAnchor = null;
-		settings.endAnchor = null;
 		return;
 	}
 
@@ -245,8 +263,6 @@ function updatePreviewElements(selection: Shape[]) {
 		leftPreviewText.classList.add("preview-text--selected");
 		rightPreviewText.textContent = defaultRightText;
 		rightPreviewText.classList.remove("preview-text--selected");
-
-		settings.endAnchor = null;
 		return;
 	}
 
@@ -258,9 +274,8 @@ function updatePreviewElements(selection: Shape[]) {
 	}
 }
 
-function updateAnchorPointsVisualState(key: "startAnchor" | "endAnchor") {
+function updateAnchorPointsVisualState(key: "startAnchor" | "endAnchor", settings: ConnectorSettings) {
 	const anchorPoints = document.querySelectorAll<HTMLInputElement>(`[data-setting="${key}"]`);
-
 	anchorPoints.forEach(point => {
     point.checked = settings[key] === point.value;
   });
