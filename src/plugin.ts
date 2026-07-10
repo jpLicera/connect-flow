@@ -2,6 +2,7 @@ import { generatePath } from "./generate-path";
 import { ConnectorSettings } from "./types/ConnectorSettings";
 import { applyOffsetToAnchorPoints, getAnchorPoints } from "./anchor";
 import { Shape, StrokeCap } from "@penpot/plugin-types";
+import { SelectionType } from "./types/SelectionType";
 
 penpot.ui.open("ConnectFlow", `?theme=${penpot.theme}`, { width: 500, height: 700 });
 
@@ -59,7 +60,7 @@ function generateConnector(settings: ConnectorSettings) {
 			}
 		];
 
-		penpot.selection = applyPostSelectionSettings(settings, path, shape1, shape2);
+		penpot.selection = applySelectionSettings(settings.selectionType, path, shape1, shape2);
 		penpot.ui.sendMessage({
 			type: 'notification',
 			message: 'Connector created successfully!'
@@ -73,15 +74,15 @@ function generateConnector(settings: ConnectorSettings) {
 	}
 }
 
-function applyPostSelectionSettings(settings: ConnectorSettings, connector: Shape, shape1: Shape, shape2: Shape) : Shape[] {
+function applySelectionSettings(selectionType: SelectionType, connector: Shape, shape1: Shape, shape2: Shape) : Shape[] {
 	const s = {
+		none: [],
 		start: [shape1],
 		end: [shape2],
-		maintain: [shape1, shape2],
 		connector: [connector]
 	}
 
-	return s[settings.selectionType];
+	return s[selectionType];
 }
 
 // Handle messages from UI

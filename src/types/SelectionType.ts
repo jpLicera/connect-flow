@@ -1,1 +1,1 @@
-export type SelectionType = "start" | "end" | "maintain" | "connector";
+export type SelectionType = "none" | "start" | "end" | "connector";
