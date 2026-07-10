@@ -72,9 +72,16 @@ body {
 	user-select: none;
 }
 
-.arrow-icon {
-	font-size: 16px;
-	color: var(--df-primary);
+.switch-button {
+	padding: 7px;
+	border-width: 1px !important;
+}
+
+.switch-button::after {
+	content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' stroke='%238f9da3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 14.556l2.5-2.445m0 0L11 9.556m2.5 2.555H3M5 6.5L2.5 4.056m0 0L5 1.5M2.5 4.056H13'/%3E%3C/svg%3E");
+	width: 16px;
+	height: 16px;
+	display: block;
 }
 
 .offset-input {
@@ -215,10 +222,6 @@ body[data-theme="light"] {
 
 body[data-theme="light"] .plugin-container {
   background-color: var(--lb-primary);
-}
-
-body[data-theme="light"] .arrow-icon {
-  color: var(--lf-primary);
 }
 
 body[data-theme="light"] .connector-arrow {

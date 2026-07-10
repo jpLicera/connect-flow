@@ -184,6 +184,14 @@ document.getElementById("generateButton")?.addEventListener("click", () => {
   parent.postMessage({ type: "generate-connector", settings }, "*");
 });
 
+document.getElementById("switchCapsButton")?.addEventListener("click", () => {
+	const initialValue = settings.startArrow;
+	settings.startArrow = settings.endArrow;
+	settings.endArrow = initialValue;
+	updateUI(settings);
+	parent.postMessage({ type: "settings-changed", settings }, "*");
+});
+
 function setupAnchorPointListeners(key: "endAnchor" | "startAnchor") {
 	const anchorPoints = document.querySelectorAll<HTMLInputElement>(`[data-setting="${key}"]`);
 
