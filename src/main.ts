@@ -1,3 +1,4 @@
+import { Shape } from "@penpot/plugin-types";
 import "./style.css";
 import { ConnectorSettings } from "./types/ConnectorSettings";
 import { ShapeSide } from "./types/ShapeSide";
@@ -183,57 +184,20 @@ document.getElementById("generateButton")?.addEventListener("click", () => {
   parent.postMessage({ type: "generate-connector", settings }, "*");
 });
 
-// Handle anchor point clicks
-function setupAnchorPointListeners() {
-  document.querySelectorAll('.anchor-point').forEach(anchorPoint => {
-    anchorPoint.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      const side: ShapeSide = target.dataset.side as ShapeSide;
+function setupAnchorPointListeners(key: "endAnchor" | "startAnchor") {
+	const anchorPoints = document.querySelectorAll<HTMLInputElement>(`[data-setting="${key}"]`);
 
-      const previewElement = target.closest('.preview-element');
-      const isLeftElement = previewElement?.classList.contains('left');
-
-      if (isLeftElement) {
-        // Handle start anchor selection
-        handleAnchorSelection('start', side, target);
-      } else {
-        // Handle end anchor selection
-        handleAnchorSelection('end', side, target);
-      }
-    });
-  });
-}
-
-function handleAnchorSelection(elementType: 'start' | 'end', side: ShapeSide, clickedElement: HTMLElement) {
-  const previewElement = clickedElement.closest('.preview-element');
-  if (!previewElement) return;
-
-  // Remove selected class from all anchor points in this element
-  previewElement.querySelectorAll('.anchor-point').forEach(point => {
-    point.classList.remove('selected');
-  });
-
-  // If clicking the same anchor point that's already selected, deselect it
-  const currentSelection = elementType === 'start' ? settings.startAnchor : settings.endAnchor;
-  if (currentSelection === side) {
-    // Deselect
-    if (elementType === 'start') {
-      settings.startAnchor = null;
-    } else {
-      settings.endAnchor = null;
-    }
-  } else {
-    // Select new anchor point
-    clickedElement.classList.add('selected');
-    if (elementType === 'start') {
-      settings.startAnchor = side;
-    } else {
-      settings.endAnchor = side;
-    }
-  }
-
-  // Notify plugin about settings change
-  parent.postMessage({ type: "settings-changed", settings }, "*");
+	anchorPoints.forEach(anchorPoint => {
+		anchorPoint.addEventListener("input", () => {
+			anchorPoints.forEach(ap => {
+				if(anchorPoint.value !== ap.value) {
+					ap.checked = false;
+				}
+			});
+			settings[key] = anchorPoint.value as ShapeSide;
+			parent.postMessage({ type: "settings-changed", settings }, "*");
+		});
+	});
 }
 
 // Listen plugin.ts messages
@@ -246,75 +210,55 @@ window.addEventListener("message", (event) => {
   } else if (event.data.type === "selection-update") {
     // Update preview elements with selected element names
     updatePreviewElements(event.data.selection);
+		updateAnchorPointsVisualState("startAnchor");
+		updateAnchorPointsVisualState("endAnchor");
   }
 });
 
-// Update preview elements with selected element names
-function updatePreviewElements(selection: any[]) {
-  const leftPreviewText = document.querySelector(".preview-element.left .preview-text") as HTMLElement;
-  const rightPreviewText = document.querySelector(".preview-element.right .preview-text") as HTMLElement;
+function updatePreviewElements(selection: Shape[]) {
+	const leftPreviewText = document.getElementById("leftPreviewText") as HTMLElement;
+	const rightPreviewText = document.getElementById("rightPreviewText") as HTMLElement;
 
-  if (!leftPreviewText || !rightPreviewText) return;
+	const defaultRightText = "then another element holding [Shift]";
 
-  // Default placeholder texts
-  const defaultLeftText = "Select an element";
-  const defaultRightText = "then another element holding [Shift]";
+	if (selection.length === 0) {
+		leftPreviewText.textContent = "Select an element";
+		leftPreviewText.classList.remove("preview-text--selected");
+		rightPreviewText.textContent = defaultRightText;
+		rightPreviewText.classList.remove("preview-text--selected");
 
-  if (selection.length === 0) {
-    // No selection - show placeholders and reset anchor selections
-    leftPreviewText.textContent = defaultLeftText;
-    leftPreviewText.classList.remove('selected');
-    rightPreviewText.textContent = defaultRightText;
-    rightPreviewText.classList.remove('selected');
+		settings.startAnchor = null;
+		settings.endAnchor = null;
+		return;
+	}
 
-    // Reset anchor point selections
-    settings.startAnchor = null;
-    settings.endAnchor = null;
-    updateAnchorPointsVisualState();
-  } else if (selection.length === 1) {
-    // One element selected
-    leftPreviewText.textContent = selection[0].name || "Element 1";
-    leftPreviewText.classList.add('selected');
-    rightPreviewText.textContent = defaultRightText;
-    rightPreviewText.classList.remove('selected');
+	if (selection.length === 1) {
+		leftPreviewText.textContent = selection[0].name;
+		leftPreviewText.classList.add("preview-text--selected");
+		rightPreviewText.textContent = defaultRightText;
+		rightPreviewText.classList.remove("preview-text--selected");
 
-    // Reset end anchor when only one element is selected
-    settings.endAnchor = null;
-    updateAnchorPointsVisualState();
-  } else if (selection.length >= 2) {
-    // Two or more elements selected
-    leftPreviewText.textContent = selection[0].name || "Element 1";
-    leftPreviewText.classList.add('selected');
-    rightPreviewText.textContent = selection[1].name || "Element 2";
-    rightPreviewText.classList.add('selected');
+		settings.endAnchor = null;
+		return;
+	}
 
-    // Keep current anchor selections
-    updateAnchorPointsVisualState();
-  }
+	if (selection.length >= 2) {
+		leftPreviewText.textContent = selection[0].name;
+		leftPreviewText.classList.add("preview-text--selected");
+		rightPreviewText.textContent = selection[1].name;
+		rightPreviewText.classList.add("preview-text--selected");
+	}
 }
 
-// Update visual state of anchor points based on current settings
-function updateAnchorPointsVisualState() {
-  // Clear all selected states
-  document.querySelectorAll('.anchor-point').forEach(point => {
-    point.classList.remove('selected');
+function updateAnchorPointsVisualState(key: "startAnchor" | "endAnchor") {
+	const anchorPoints = document.querySelectorAll<HTMLInputElement>(`[data-setting="${key}"]`);
+
+	anchorPoints.forEach(point => {
+    point.checked = settings[key] === point.value;
   });
-
-  // Apply selected state to current selections
-  if (settings.startAnchor) {
-    const startAnchor = document.querySelector(`.preview-element.left .anchor-point.${settings.startAnchor}`);
-    startAnchor?.classList.add('selected');
-  }
-
-  if (settings.endAnchor) {
-    const endAnchor = document.querySelector(`.preview-element.right .anchor-point.${settings.endAnchor}`);
-    endAnchor?.classList.add('selected');
-  }
 }
 
-// Simple notification system
 function showNotification(message: string) {
-  // Create notification element
   const notification = document.createElement('div');
   notification.textContent = message;
   notification.style.cssText = `
@@ -344,5 +288,6 @@ function showNotification(message: string) {
 // Initialize UI on load
 document.addEventListener('DOMContentLoaded', () => {
   updateUI(settings);
-  setupAnchorPointListeners();
+  setupAnchorPointListeners("startAnchor");
+  setupAnchorPointListeners("endAnchor");
 });

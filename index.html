@@ -61,22 +61,21 @@
           <input id="offsetInput" type="number" class="input input--offset" min="0" max="200" value="0">
         </div>
       </div>
-
       <div class="row row--padded">
-        <div class="preview-element left">
-          <div class="anchor-point top" data-side="t"></div>
-          <div class="anchor-point right" data-side="r"></div>
-          <div class="anchor-point bottom" data-side="b"></div>
-          <div class="anchor-point left" data-side="l"></div>
-          <span class="preview-text">Select an element</span>
+        <div class="preview-element">
+					<input class="anchor-point anchor-point--top" type="checkbox" value="t" data-setting="startAnchor">
+					<input class="anchor-point anchor-point--right" type="checkbox" value="r" data-setting="startAnchor">
+					<input class="anchor-point anchor-point--bottom" type="checkbox" value="b" data-setting="startAnchor">
+					<input class="anchor-point anchor-point--left" type="checkbox" value="l" data-setting="startAnchor">
+          <span id="leftPreviewText" class="preview-text"></span>
         </div>
         <div class="connector-arrow">→</div>
-        <div class="preview-element right">
-          <div class="anchor-point top" data-side="t"></div>
-          <div class="anchor-point right" data-side="r"></div>
-          <div class="anchor-point bottom" data-side="b"></div>
-          <div class="anchor-point left" data-side="l"></div>
-          <span class="preview-text">then another element holding [Shift]</span>
+        <div class="preview-element">
+					<input class="anchor-point anchor-point--top" type="checkbox" value="t" data-setting="endAnchor">
+					<input class="anchor-point anchor-point--right" type="checkbox" value="r" data-setting="endAnchor">
+					<input class="anchor-point anchor-point--bottom" type="checkbox" value="b" data-setting="endAnchor">
+					<input class="anchor-point anchor-point--left" type="checkbox" value="l" data-setting="endAnchor">
+          <span id="rightPreviewText" class="preview-text"></span>
         </div>
       </div>
 
