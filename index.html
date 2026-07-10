@@ -22,12 +22,12 @@
         <div class="stroke-input">
           <input id="strokeInput" type="number" class="input input--stroke" min="1" max="100" value="2">
         </div>
-        <select id="connectorTypeSelect" class="dropdown" data-setting="connectorType">
+        <select id="connectorTypeSelect" class="select" data-setting="connectorType">
           <option value="direct" selected>Direct</option>
           <option value="orthogonal">Orthogonal</option>
           <option value="curve">Curve</option>
         </select>
-        <select id="styleSelect" class="dropdown" data-setting="style">
+        <select id="styleSelect" class="select" data-setting="style">
           <option value="solid" selected>Solid</option>
           <option value="dashed">Dashed</option>
           <option value="dotted">Dotted</option>
@@ -36,7 +36,7 @@
       </div>
 
       <div class="row">
-        <select id="startCapSelect" class="dropdown arrow-start" data-setting="startArrow">
+        <select id="startCapSelect" class="select" data-setting="startArrow">
           <option value="none" selected>None</option>
           <option value="line-arrow">Arrow</option>
           <option value="triangle-arrow">Triangle</option>
@@ -47,7 +47,7 @@
           <option value="square">Squared</option>
         </select>
         <span class="arrow-icon">→</span>
-        <select id="endCapSelect" class="dropdown arrow-end" data-setting="endArrow">
+        <select id="endCapSelect" class="select" data-setting="endArrow">
           <option value="none" selected>None</option>
           <option value="line-arrow">Arrow</option>
           <option value="triangle-arrow">Triangle</option>
@@ -85,7 +85,7 @@
           <span class="switch-slider"></span>
         </label>
         <label for="drawOnSelectionInput" id="drawOnSelectionInputLabel" class="body-m">Draw on selection</label>
-        <select class="dropdown" data-setting="selectionType">
+        <select class="select" data-setting="selectionType">
           <option value="connector" selected>Connector</option>
           <option value="maintain">Maintain</option>
           <option value="start">Start</option>

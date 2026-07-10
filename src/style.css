@@ -22,6 +22,18 @@ body {
   font-size: 14px;
 }
 
+.select {
+	/* makes the arrow icon consistent with penpot's UI */
+	background-size: 13px;
+}
+
+.input, .select {
+	padding: 8px;
+	block-size: 32px;
+	font-size: 0.875rem;
+	line-height: 1;
+}
+
 .switch-container {
 	/* preserves the slider's width */
 	white-space: pre;
@@ -52,37 +64,12 @@ body {
 .stroke-input::after {
 	content: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' stroke='%238f9da3' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.333 6.667H3.667a.334.334 0 1 0 0 .666h8.666a.334.334 0 1 0 0-.666zm-9-5.334h9.334M12 12.667H4A.667.667 0 1 0 4 14h8a.667.667 0 0 0 0-1.333z'%3E%3C/path%3E%3C/svg%3E");
 	position: absolute;
-	top: 12px;
+	top: 11px;
 	left: 8px;
 	width: 12px;
 	height: 12px;
 	line-height: 1;
 	user-select: none;
-}
-
-.dropdown {
-  background-color: var(--db-tertiary);
-  border: 1px solid var(--bd-tertiary);
-  border-radius: 8px;
-  color: var(--df-primary);
-  padding: 12px;
-  font-size: 14px;
-  flex: 1;
-  cursor: pointer;
-}
-
-.dropdown:hover {
-  background-color: var(--db-quaternary);
-}
-
-.dropdown:focus {
-  outline: none;
-  border-color: var(--ac-primary);
-}
-
-.arrow-start,
-.arrow-end {
-  flex: 1;
 }
 
 .arrow-icon {
@@ -228,20 +215,6 @@ body[data-theme="light"] {
 
 body[data-theme="light"] .plugin-container {
   background-color: var(--lb-primary);
-}
-
-body[data-theme="light"] .dropdown {
-  background-color: var(--lb-tertiary);
-  border: 1px solid var(--ld-tertiary);
-  color: var(--lf-primary);
-}
-
-body[data-theme="light"] .dropdown:hover {
-  background-color: var(--lb-quaternary);
-}
-
-body[data-theme="light"] .dropdown:focus {
-  border-color: var(--ac-primary);
 }
 
 body[data-theme="light"] .arrow-icon {

@@ -78,7 +78,7 @@ document.getElementById("opacityInput")?.addEventListener("input", event => {
 	parent.postMessage({ type: "settings-changed", settings }, "*");
 });
 
-document.querySelectorAll(".dropdown").forEach(dropdown => {
+document.querySelectorAll("select").forEach(dropdown => {
   dropdown.addEventListener("change", (e) => {
     const target = e.target as HTMLSelectElement;
     const setting = target.dataset.setting as keyof ConnectorSettings;
