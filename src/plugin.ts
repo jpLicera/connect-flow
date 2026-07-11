@@ -55,7 +55,7 @@ function generateConnector(settings: Settings) {
 				strokeAlignment: "center",
 				strokeStyle: settings.style as 'solid' | 'dashed' | 'dotted' | 'mixed',
 				strokeCapStart: settings.startCap === "none" ? undefined : settings.startCap as StrokeCap,
-				strokeCapEnd: settings.endArrow === "none" ? undefined : settings.endArrow as StrokeCap,
+				strokeCapEnd: settings.endCap === "none" ? undefined : settings.endCap as StrokeCap,
 				strokeOpacity: settings.opacity / 100
 			}
 		];
@@ -95,7 +95,7 @@ let currentSettings: Settings = {
   position: "center",
   style: "solid",
   startCap: "none",
-  endArrow: "none",
+  endCap: "none",
   drawOnSelection: false,
   startAnchor: null,
   endAnchor: null,

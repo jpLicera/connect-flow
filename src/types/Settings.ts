@@ -9,7 +9,7 @@ export interface Settings {
 	position: string;
 	style: string;
 	startCap: string;
-	endArrow: string;
+	endCap: string;
 	drawOnSelection: boolean;
 	startAnchor: ShapeSide | null;
 	endAnchor: ShapeSide | null;

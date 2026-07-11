@@ -14,7 +14,7 @@ const settings: Settings = {
   position: "center",
   style: "solid",
   startCap: "none",
-  endArrow: "none",
+  endCap: "none",
   drawOnSelection: false,
   startAnchor: null,
   endAnchor: null,
@@ -36,8 +36,8 @@ function updateUI(s: Settings) {
 	const startCapDropdown = document.getElementById("startCapSelect") as HTMLSelectElement;
 	startCapDropdown.value = s.startCap;
 
-	const endArrowDropdown = document.getElementById("endCapSelect") as HTMLSelectElement;
-	endArrowDropdown.value = s.endArrow;
+	const endCapDropdown = document.getElementById("endCapSelect") as HTMLSelectElement;
+	endCapDropdown.value = s.endCap;
 
 	const connectorTypeDropdown = document.getElementById("connectorTypeSelect") as HTMLSelectElement;
 	connectorTypeDropdown.value = s.connectorType;
@@ -184,8 +184,8 @@ document.getElementById("generateButton")?.addEventListener("click", () => {
 
 document.getElementById("switchCapsButton")?.addEventListener("click", () => {
 	const initialValue = settings.startCap;
-	settings.startCap = settings.endArrow;
-	settings.endArrow = initialValue;
+	settings.startCap = settings.endCap;
+	settings.endCap = initialValue;
 	updateUI(settings);
 	parent.postMessage({ type: "settings-changed", settings }, "*");
 });
