@@ -1,9 +1,9 @@
 import { AnchorPoint } from "./types/AnchorPoints";
 import { Point, Shape } from "@penpot/plugin-types";
 import { ShapeSide } from "./types/ShapeSide";
-import { ConnectorSettings } from "./types/ConnectorSettings";
+import { Settings } from "./types/Settings";
 
-export function getAnchorPoints(settings: ConnectorSettings, shape1: Shape, shape2: Shape): [AnchorPoint, AnchorPoint] {
+export function getAnchorPoints(settings: Settings, shape1: Shape, shape2: Shape): [AnchorPoint, AnchorPoint] {
 
 	if (settings.startAnchor && settings.endAnchor) {
 		return [

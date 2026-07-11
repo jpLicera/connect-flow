@@ -1,13 +1,13 @@
 import { Shape } from "@penpot/plugin-types";
 import "./style.css";
-import { ConnectorSettings } from "./types/ConnectorSettings";
+import { Settings } from "./types/Settings";
 import { ShapeSide } from "./types/ShapeSide";
 
 // get the current theme from the URL
 const searchParams = new URLSearchParams(window.location.search);
 document.body.dataset.theme = searchParams.get("theme") ?? "light";
 
-const settings: ConnectorSettings = {
+const settings: Settings = {
   color: "#000000",
   opacity: 100,
   strokeWidth: 2,
@@ -23,7 +23,7 @@ const settings: ConnectorSettings = {
   selectionType: "connector"
 };
 
-function updateUI(s: ConnectorSettings) {
+function updateUI(s: Settings) {
 	const strokeInput = document.getElementById("strokeInput") as HTMLInputElement;
 	strokeInput.value = s.strokeWidth.toString();
 
@@ -79,7 +79,7 @@ document.getElementById("opacityInput")?.addEventListener("input", event => {
 document.querySelectorAll("select").forEach(dropdown => {
   dropdown.addEventListener("change", (e) => {
     const target = e.target as HTMLSelectElement;
-    const setting = target.dataset.setting as keyof ConnectorSettings;
+    const setting = target.dataset.setting as keyof Settings;
     if (setting) {
       (settings as any)[setting] = target.value;
       parent.postMessage({ type: "settings-changed", settings }, "*");
@@ -274,7 +274,7 @@ function updatePreviewElements(selection: Shape[]): void {
 	}
 }
 
-function updateAnchorPointsVisualState(key: "startAnchor" | "endAnchor", settings: ConnectorSettings) {
+function updateAnchorPointsVisualState(key: "startAnchor" | "endAnchor", settings: Settings) {
 	const anchorPoints = document.querySelectorAll<HTMLInputElement>(`[data-setting="${key}"]`);
 	anchorPoints.forEach(point => {
     point.checked = settings[key] === point.value;

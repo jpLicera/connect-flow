@@ -1,5 +1,5 @@
 import { generatePath } from "./generate-path";
-import { ConnectorSettings } from "./types/ConnectorSettings";
+import { Settings } from "./types/Settings";
 import { applyOffsetToAnchorPoints, getAnchorPoints } from "./anchor";
 import { StrokeCap } from "@penpot/plugin-types";
 import { applySelectionSettings } from "./selection";
@@ -21,7 +21,7 @@ setTimeout(() => {
 }, 100);
 
 // Generate connector between two selected objects
-function generateConnector(settings: ConnectorSettings) {
+function generateConnector(settings: Settings) {
 	const selected = penpot.selection;
 
 	if (selected.length !== 2) {
@@ -88,7 +88,7 @@ penpot.ui.onMessage<any>((message) => {
 });
 
 // Store current settings to access drawOnSelection
-let currentSettings: ConnectorSettings = {
+let currentSettings: Settings = {
   color: "#000000",
   opacity: 100,
   strokeWidth: 2,
