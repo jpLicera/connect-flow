@@ -8,7 +8,7 @@ export interface Settings {
 	strokeWidth: number;
 	position: string;
 	style: string;
-	startArrow: string;
+	startCap: string;
 	endArrow: string;
 	drawOnSelection: boolean;
 	startAnchor: ShapeSide | null;

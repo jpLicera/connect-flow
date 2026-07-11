@@ -13,7 +13,7 @@ const settings: Settings = {
   strokeWidth: 2,
   position: "center",
   style: "solid",
-  startArrow: "none",
+  startCap: "none",
   endArrow: "none",
   drawOnSelection: false,
   startAnchor: null,
@@ -33,8 +33,8 @@ function updateUI(s: Settings) {
 	const styleDropdown = document.getElementById("styleSelect") as HTMLSelectElement;
 	styleDropdown.value = s.style;
 
-	const startArrowDropdown = document.getElementById("startCapSelect") as HTMLSelectElement;
-	startArrowDropdown.value = s.startArrow;
+	const startCapDropdown = document.getElementById("startCapSelect") as HTMLSelectElement;
+	startCapDropdown.value = s.startCap;
 
 	const endArrowDropdown = document.getElementById("endCapSelect") as HTMLSelectElement;
 	endArrowDropdown.value = s.endArrow;
@@ -183,8 +183,8 @@ document.getElementById("generateButton")?.addEventListener("click", () => {
 });
 
 document.getElementById("switchCapsButton")?.addEventListener("click", () => {
-	const initialValue = settings.startArrow;
-	settings.startArrow = settings.endArrow;
+	const initialValue = settings.startCap;
+	settings.startCap = settings.endArrow;
 	settings.endArrow = initialValue;
 	updateUI(settings);
 	parent.postMessage({ type: "settings-changed", settings }, "*");
