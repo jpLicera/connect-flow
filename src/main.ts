@@ -282,35 +282,14 @@ function updateAnchorPointsVisualState(key: "startAnchor" | "endAnchor", setting
 }
 
 function showNotification(message: string) {
-  const notification = document.createElement('div');
-  notification.textContent = message;
-  notification.style.cssText = `
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    background-color: #333;
-    color: white;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    z-index: 1000;
-    max-width: 300px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  `;
-
-  document.body.appendChild(notification);
-
-  // Remove after 3 seconds
-  setTimeout(() => {
-    if (notification.parentNode) {
-      notification.parentNode.removeChild(notification);
-    }
-  }, 3000);
+	const output = document.getElementById("output") as HTMLDivElement;
+	output.textContent = message;
+	output.classList.add("output--visible");
+	setTimeout(() => output.classList.remove("output--visible") , 3000);
 }
 
-// Initialize UI on load
 document.addEventListener('DOMContentLoaded', () => {
-  updateUI(settings);
-  setupAnchorPointListeners("startAnchor");
-  setupAnchorPointListeners("endAnchor");
+	updateUI(settings);
+	setupAnchorPointListeners("startAnchor");
+	setupAnchorPointListeners("endAnchor");
 });

@@ -302,3 +302,22 @@ body[data-theme="light"] .connector-arrow {
 	border-bottom-left-radius: 0;
 	width: 80px;
 }
+
+.output {
+	background-color: var(--db-tertiary);
+	padding: 8px;
+	border-radius: 4px;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+}
+
+body[data-theme="light"] .output {
+	background-color: var(--lb-secondary);
+}
+
+.output--visible {
+	opacity: 1;
+	visibility: visible;
+	transition-delay: 0s;
+}
