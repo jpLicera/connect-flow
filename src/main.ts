@@ -200,13 +200,18 @@ function setupAnchorPointListeners(key: "endAnchor" | "startAnchor") {
 					ap.checked = false;
 				}
 			});
-			settings[key] = anchorPoint.value as ShapeSide;
+			settings[key] = anchorPoint.checked ? anchorPoint.value as ShapeSide : null;
 			parent.postMessage({ type: "settings-changed", settings }, "*");
 		});
 	});
 }
 
 window.addEventListener("message", (event) => {
+
+	if (event.data.type === "selection-update") {
+		updatePreviewElements(event.data.selection);
+		return;
+	}
 
 	if (event.data.type === "theme-change") {
 		document.body.dataset.theme = event.data.theme;
@@ -218,31 +223,7 @@ window.addEventListener("message", (event) => {
 		return;
 	}
 
-	if (event.data.type === "selection-update") {
-		updateAnchorSettings(event.data.selection);
-		updatePreviewElements(event.data.selection);
-		updateAnchorPointsVisualState("startAnchor", settings);
-		updateAnchorPointsVisualState("endAnchor", settings);
-	}
-
 });
-
-function updateAnchorSettings(selection: Shape[]): void {
-	if (selection.length === 0) {
-		settings.startAnchor = null;
-		settings.endAnchor = null;
-	}
-
-	if (selection.length === 1) {
-		settings.endAnchor = null;
-	}
-
-	if (selection.length >= 2) {
-		return;
-	}
-
-	parent.postMessage({ type: "settings-changed", settings }, "*");
-}
 
 function updatePreviewElements(selection: Shape[]): void {
 	const leftPreviewText = document.getElementById("leftPreviewText") as HTMLElement;
@@ -272,13 +253,6 @@ function updatePreviewElements(selection: Shape[]): void {
 		rightPreviewText.textContent = selection[1].name;
 		rightPreviewText.classList.add("preview-text--selected");
 	}
-}
-
-function updateAnchorPointsVisualState(key: "startAnchor" | "endAnchor", settings: Settings) {
-	const anchorPoints = document.querySelectorAll<HTMLInputElement>(`[data-setting="${key}"]`);
-	anchorPoints.forEach(point => {
-    point.checked = settings[key] === point.value;
-  });
 }
 
 function showNotification(message: string) {
