@@ -61,7 +61,6 @@ document.getElementById("colorInput")?.addEventListener("input", event => {
 
 	settings.color = `#${inputElement.value}`;
 	updateUI(settings);
-	parent.postMessage({ type: "settings-changed", settings }, "*");
 });
 
 document.getElementById("opacityInput")?.addEventListener("input", event => {
@@ -73,7 +72,6 @@ document.getElementById("opacityInput")?.addEventListener("input", event => {
 
 	settings.opacity = parseInt(inputElement.value);
 	updateUI(settings);
-	parent.postMessage({ type: "settings-changed", settings }, "*");
 });
 
 document.querySelectorAll("select").forEach(dropdown => {
@@ -82,7 +80,6 @@ document.querySelectorAll("select").forEach(dropdown => {
     const setting = target.dataset.setting as keyof Settings;
     if (setting) {
       (settings as any)[setting] = target.value;
-      parent.postMessage({ type: "settings-changed", settings }, "*");
     }
   });
 });
@@ -116,7 +113,6 @@ document.getElementById("strokeInput")?.addEventListener("input", (e) => {
   const value = parseInt(target.value);
   if (!isNaN(value) && value >= 1 && value <= 100) {
     settings.strokeWidth = value;
-    parent.postMessage({ type: "settings-changed", settings }, "*");
   } else if (target.value === '') {
     // Si el campo está vacío, no actualizar settings pero permitir el estado vacío temporalmente
     return;
@@ -125,7 +121,6 @@ document.getElementById("strokeInput")?.addEventListener("input", (e) => {
     const clampedValue = Math.max(1, Math.min(100, value || 1));
     target.value = clampedValue.toString();
     settings.strokeWidth = clampedValue;
-    parent.postMessage({ type: "settings-changed", settings }, "*");
   }
 });
 
@@ -158,24 +153,20 @@ document.getElementById("offsetInput")?.addEventListener("input", (e) => {
   const value = parseInt(target.value);
   if (!isNaN(value) && value >= 0 && value <= 200) {
     settings.offset = value;
-    parent.postMessage({ type: "settings-changed", settings }, "*");
   } else if (target.value === '') {
     // Si el campo está vacío, usar 0 como valor por defecto
     settings.offset = 0;
-    parent.postMessage({ type: "settings-changed", settings }, "*");
   } else {
     // Si el valor está fuera del rango, ajustarlo
     const clampedValue = Math.max(0, Math.min(200, value || 0));
     target.value = clampedValue.toString();
     settings.offset = clampedValue;
-    parent.postMessage({ type: "settings-changed", settings }, "*");
   }
 });
 
 document.getElementById("drawOnSelectionInput")?.addEventListener("change", (e) => {
   const target = e.target as HTMLInputElement;
   settings.drawOnSelection = target.checked;
-  parent.postMessage({ type: "settings-changed", settings }, "*");
 });
 
 document.getElementById("generateButton")?.addEventListener("click", () => {
@@ -187,7 +178,6 @@ document.getElementById("switchCapsButton")?.addEventListener("click", () => {
 	settings.startCap = settings.endCap;
 	settings.endCap = initialValue;
 	updateUI(settings);
-	parent.postMessage({ type: "settings-changed", settings }, "*");
 });
 
 function setupAnchorPointListeners(key: "endAnchor" | "startAnchor") {
@@ -201,7 +191,6 @@ function setupAnchorPointListeners(key: "endAnchor" | "startAnchor") {
 				}
 			});
 			settings[key] = anchorPoint.checked ? anchorPoint.value as ShapeSide : null;
-			parent.postMessage({ type: "settings-changed", settings }, "*");
 		});
 	});
 }
@@ -210,6 +199,11 @@ window.addEventListener("message", (event) => {
 
 	if (event.data.type === "selection-update") {
 		updatePreviewElements(event.data.selection);
+
+		if(settings.drawOnSelection && event.data.selection.length === 2) {
+			parent.postMessage({ type: "generate-connector", settings }, "*");
+		}
+
 		return;
 	}
 

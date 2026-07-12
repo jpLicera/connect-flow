@@ -80,48 +80,21 @@ penpot.ui.onMessage<any>((message) => {
     case 'generate-connector':
       generateConnector(message.settings);
       break;
-    case 'settings-changed':
-      // Update current settings to keep them in sync
-      currentSettings = { ...message.settings };
-      break;
   }
 });
 
-// Store current settings to access drawOnSelection
-let currentSettings: Settings = {
-  color: "#000000",
-  opacity: 100,
-  strokeWidth: 2,
-  position: "center",
-  style: "solid",
-  startCap: "none",
-  endCap: "none",
-  drawOnSelection: false,
-  startAnchor: null,
-  endAnchor: null,
-  connectorType: "direct",
-  offset: 0,
-	selectionType: "connector"
-};
+penpot.on("selectionchange", () => {
 
-// Auto-generate on selection change if enabled
-penpot.on('selectionchange', () => {
-  // Send selection info to UI for preview updates
-  const selection = penpot.selection.map(shape => ({
-    name: shape.name,
-    type: shape.type,
-    id: shape.id
-  }));
+	const selection = penpot.selection.map(shape => ({
+		name: shape.name,
+		type: shape.type,
+		id: shape.id
+	}));
 
-  penpot.ui.sendMessage({
-    type: 'selection-update',
-    selection: selection
-  });
-
-  // Auto-generate connector if drawOnSelection is enabled and we have exactly 2 elements
-  if (currentSettings.drawOnSelection && selection.length === 2) {
-    generateConnector(currentSettings);
-  }
+	penpot.ui.sendMessage({
+		type: "selection-update",
+		selection
+	});
 });
 
 penpot.on("themechange", (theme) => {
