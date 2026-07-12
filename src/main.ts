@@ -208,7 +208,7 @@ function setupAnchorPointListeners(key: "endAnchor" | "startAnchor") {
 
 window.addEventListener("message", (event) => {
 
-	if (event.data.source === "penpot") {
+	if (event.data.type === "theme-change") {
 		document.body.dataset.theme = event.data.theme;
 		return;
 	}

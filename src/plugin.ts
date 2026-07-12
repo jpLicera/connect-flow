@@ -124,11 +124,9 @@ penpot.on('selectionchange', () => {
   }
 });
 
-// Update the theme in the iframe
 penpot.on("themechange", (theme) => {
-  penpot.ui.sendMessage({
-    source: "penpot",
-    type: "themechange",
-    theme,
-  });
+	penpot.ui.sendMessage({
+		type: "theme-change",
+		theme,
+	});
 });
