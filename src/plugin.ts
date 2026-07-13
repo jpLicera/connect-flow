@@ -43,10 +43,9 @@ function generateConnector(settings: Settings) {
 		path.x = Math.min(start.x, end.x) - settings.offset;
 		path.y = Math.min(start.y, end.y) - settings.offset;
 		path.d = generatePath({
-			type: settings.connectorType,
 			startPoint: start,
 			endPoint: end,
-			strokeWidth: settings.strokeWidth
+			settings
 		});
 
 		path.strokes = [

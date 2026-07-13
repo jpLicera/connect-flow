@@ -1,59 +1,47 @@
 import { AnchorPoint } from "./types/AnchorPoints";
-import { ConnectorTypeOptions } from "./types/ConnectorTypeOptions";
 import { Point } from "./types/Point";
 import { ShapeSide } from "./types/ShapeSide";
 import { SidePair } from "./types/ShapeSidePair";
 import { path_drawing_map } from "./path-drawing-map";
 import { AlignmentPair } from "./types/AlignmentPair";
 import { VerticalAlignment } from "./types/VerticalAlignment";
+import { ConnectorParameters } from "./types/ConnectorParameters";
 import { HorizontalAlignment } from "./types/HorizontalAlignment";
 import { PathDrawingParameters } from "./types/PathDrawingParameters";
 
-/**
- * Genera el path SVG según el tipo de conector seleccionado
- */
-export function generatePath(options: ConnectorTypeOptions): string {
-	const { type, startPoint, endPoint } = options;
-
-	switch (type) {
+export function generatePath(parameters: ConnectorParameters): string {
+	switch (parameters.settings.connectorType) {
 		case 'direct':
-			return generateDirectPath(startPoint, endPoint);
+			return generateDirectPath(parameters.startPoint, parameters.endPoint);
 		case 'orthogonal':
-			return generateOrthogonalPath(options);
+			return generateOrthogonalPath(parameters);
 		case 'curve':
-			return generateCurvePath(startPoint, endPoint);
+			return generateCurvePath(parameters.startPoint, parameters.endPoint);
 		default:
-			return generateDirectPath(startPoint, endPoint);
+			return generateDirectPath(parameters.startPoint, parameters.endPoint);
 	}
 }
 
-/**
- * Modo Direct: Línea recta entre dos puntos
- */
 function generateDirectPath(start: Point, end: Point): string {
 	return `M ${start.x} ${start.y} L ${end.x} ${end.y}`;
 }
 
-/**
- * Modo Orthogonal: Conexión con ángulos rectos (90 grados)
- * Maneja diferentes tipos de conexiones según los lados de anclaje
- */
-function generateOrthogonalPath(options: ConnectorTypeOptions): string {
-	const dx = options.endPoint.x - options.startPoint.x;
-	const dy = options.endPoint.y - options.startPoint.y;
+function generateOrthogonalPath(parameters: ConnectorParameters): string {
+	const dx = parameters.endPoint.x - parameters.startPoint.x;
+	const dy = parameters.endPoint.y - parameters.startPoint.y;
 
-	const sidePair: SidePair = `${options.startPoint.side}${options.endPoint.side}`;
+	const sidePair: SidePair = `${parameters.startPoint.side}${parameters.endPoint.side}`;
 	const alignmentPair: AlignmentPair = getAlignmentPair(dx, dy);
 
 	// clearance between the resulting path and the selected sides, used when the
 	// start and end points are aligned, and a u turn is needed instead of a zigzag
-	const offset = Math.floor(options.strokeWidth * 1.5);
+	const offset = Math.floor(parameters.settings.strokeWidth * 1.5);
 
 	const params: PathDrawingParameters = {
-		x1: options.startPoint.x,
-		x2: options.endPoint.x,
-		y1: options.startPoint.y,
-		y2: options.endPoint.y,
+		x1: parameters.startPoint.x,
+		x2: parameters.endPoint.x,
+		y1: parameters.startPoint.y,
+		y2: parameters.endPoint.y,
 		dx,
 		dy,
 		adx: Math.abs(dx),
