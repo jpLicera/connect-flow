@@ -1,8 +1,10 @@
-import { generatePath } from "./generate-path";
+import { generatePath } from "./path";
 import { Settings } from "./types/Settings";
-import { applyOffsetToAnchorPoints, getAnchorPoints } from "./anchor";
-import { StrokeCap } from "@penpot/plugin-types";
 import { applySelectionSettings } from "./selection";
+import { pointsOverlap as pointsOverlap } from "./validation";
+import { Shape, StrokeCap } from "@penpot/plugin-types";
+import { ConnectorParameters } from "./types/ConnectorParameters";
+import { applyOffsetToAnchorPoints, getAnchorPoints } from "./anchor";
 
 penpot.ui.open("ConnectFlow", `?theme=${penpot.theme}`, { width: 500, height: 700 });
 
@@ -20,69 +22,59 @@ setTimeout(() => {
   });
 }, 100);
 
-// Generate connector between two selected objects
-function generateConnector(settings: Settings) {
-	const selected = penpot.selection;
+function notify(type: string, message: string): void {
+	penpot.ui.sendMessage({
+		type: "notification",
+		message: message,
+		notificationType: type
+	});
+}
 
-	if (selected.length !== 2) {
-		penpot.ui.sendMessage({
-			type: 'notification',
-			message: 'Please select exactly two objects to create a flow.',
-			notificationType: "error"
-		});
+function generateConnector(settings: Settings, selection: Shape[]): void {
+	if (selection.length !== 2) {
+		notify("error", "Please select exactly two objects to create a connector.");
 		return;
 	}
 
-	const [shape1, shape2] = selected;
-	const anchorPoints = getAnchorPoints(settings, shape1, shape2);
+	const anchorPoints = getAnchorPoints(settings, selection[0], selection[1]);
 	const [start, end] = applyOffsetToAnchorPoints(anchorPoints, settings.offset);
 
-	try {
+	const connectorParameters: ConnectorParameters = {
+		startPoint: start,
+		endPoint: end,
+		settings
+	};
 
-		const path = penpot.createPath();
-		path.x = Math.min(start.x, end.x) - settings.offset;
-		path.y = Math.min(start.y, end.y) - settings.offset;
-		path.d = generatePath({
-			startPoint: start,
-			endPoint: end,
-			settings
-		});
-
-		path.strokes = [
-			{
-				strokeColor: settings.color,
-				strokeWidth: settings.strokeWidth,
-				strokeAlignment: "center",
-				strokeStyle: settings.style as 'solid' | 'dashed' | 'dotted' | 'mixed',
-				strokeCapStart: settings.startCap === "none" ? undefined : settings.startCap as StrokeCap,
-				strokeCapEnd: settings.endCap === "none" ? undefined : settings.endCap as StrokeCap,
-				strokeOpacity: settings.opacity / 100
-			}
-		];
-
-		penpot.selection = applySelectionSettings(settings.selectionType, path, shape1, shape2);
-		penpot.ui.sendMessage({
-			type: 'notification',
-			message: 'Connector created successfully!',
-			notificationType: "success"
-		});
-	} catch (error) {
-		console.error('Error creating connector:', error);
-		penpot.ui.sendMessage({
-			type: "notification",
-			message: 'Error creating connector. Please try again.',
-			notificationType: "error"
-		});
+	if(pointsOverlap(connectorParameters)) {
+		notify("error", "The start and end points are overlapping.");
+		return;
 	}
+
+	const path = penpot.createPath();
+	path.x = Math.min(start.x, end.x) - settings.offset;
+	path.y = Math.min(start.y, end.y) - settings.offset;
+	path.d = generatePath(connectorParameters);
+
+	path.strokes = [
+		{
+			strokeColor: settings.color,
+			strokeWidth: settings.strokeWidth,
+			strokeAlignment: "center",
+			strokeStyle: settings.style as 'solid' | 'dashed' | 'dotted' | 'mixed',
+			strokeCapStart: settings.startCap === "none" ? undefined : settings.startCap as StrokeCap,
+			strokeCapEnd: settings.endCap === "none" ? undefined : settings.endCap as StrokeCap,
+			strokeOpacity: settings.opacity / 100
+		}
+	];
+
+	penpot.selection = applySelectionSettings(settings.selectionType, path, selection[0], selection[1]);
+	notify("success", "Connector created.");
 }
 
-// Handle messages from UI
-penpot.ui.onMessage<any>((message) => {
-  switch (message.type) {
-    case 'generate-connector':
-      generateConnector(message.settings);
-      break;
-  }
+penpot.ui.onMessage<any>(message => {
+	if (message.type === "generate-connector") {
+		generateConnector(message.settings, penpot.selection);
+	}
 });
 
 penpot.on("selectionchange", () => {

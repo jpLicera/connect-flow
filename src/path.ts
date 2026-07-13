@@ -61,10 +61,6 @@ function getAlignmentPair(deltaX: number, deltaY: number) : AlignmentPair {
 
 	const result = `${ha}${va}`;
 
-	if (result == "cc") {
-		throw new Error("The start and end points are overlapping!");
-	}
-
 	return result as AlignmentPair;
 }
 
