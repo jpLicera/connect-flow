@@ -213,7 +213,7 @@ window.addEventListener("message", (event) => {
 	}
 
 	if (event.data.type === "notification") {
-		showNotification(event.data.message);
+		showNotification(event.data.message, event.data.notificationType);
 		return;
 	}
 
@@ -249,11 +249,12 @@ function updatePreviewElements(selection: Shape[]): void {
 	}
 }
 
-function showNotification(message: string) {
+function showNotification(message: string, type: string) {
 	const output = document.getElementById("output") as HTMLDivElement;
 	output.textContent = message;
-	output.classList.add("output--visible");
-	setTimeout(() => output.classList.remove("output--visible") , 3000);
+	const typeClass = type === "success" ? "output--success" : "output--error";
+	output.classList.add("output--visible", typeClass);
+	setTimeout(() => output.classList.remove("output--visible", typeClass), 3000);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

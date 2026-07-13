@@ -27,7 +27,8 @@ function generateConnector(settings: Settings) {
 	if (selected.length !== 2) {
 		penpot.ui.sendMessage({
 			type: 'notification',
-			message: 'Please select exactly two objects to create a flow.'
+			message: 'Please select exactly two objects to create a flow.',
+			notificationType: "error"
 		});
 		return;
 	}
@@ -63,13 +64,15 @@ function generateConnector(settings: Settings) {
 		penpot.selection = applySelectionSettings(settings.selectionType, path, shape1, shape2);
 		penpot.ui.sendMessage({
 			type: 'notification',
-			message: 'Connector created successfully!'
+			message: 'Connector created successfully!',
+			notificationType: "success"
 		});
 	} catch (error) {
 		console.error('Error creating connector:', error);
 		penpot.ui.sendMessage({
-			type: 'notification',
-			message: 'Error creating connector. Please try again.'
+			type: "notification",
+			message: 'Error creating connector. Please try again.',
+			notificationType: "error"
 		});
 	}
 }

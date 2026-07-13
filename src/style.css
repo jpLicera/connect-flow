@@ -306,10 +306,10 @@ body[data-theme="light"] .connector-arrow {
 .output {
 	background-color: var(--db-tertiary);
 	padding: 8px;
-	border-radius: 4px;
 	opacity: 0;
 	visibility: hidden;
 	transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+	border-left: 4px solid var(--db-quaternary);
 }
 
 body[data-theme="light"] .output {
@@ -320,4 +320,14 @@ body[data-theme="light"] .output {
 	opacity: 1;
 	visibility: visible;
 	transition-delay: 0s;
+}
+
+.output--error {
+		color: var(--error-500);
+		border-color: var(--error-500);
+}
+
+.output--success {
+		color: var(--success-500);
+		border-color: var(--success-500);
 }
