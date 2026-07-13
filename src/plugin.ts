@@ -50,6 +50,8 @@ function generateConnector(settings: Settings, selection: Shape[]): void {
 		return;
 	}
 
+	const historyBlockId = penpot.history.undoBlockBegin();
+
 	const path = penpot.createPath();
 	path.x = Math.min(start.x, end.x) - settings.offset;
 	path.y = Math.min(start.y, end.y) - settings.offset;
@@ -66,6 +68,8 @@ function generateConnector(settings: Settings, selection: Shape[]): void {
 			strokeOpacity: settings.opacity / 100
 		}
 	];
+
+	penpot.history.undoBlockFinish(historyBlockId);
 
 	penpot.selection = applySelectionSettings(settings.selectionType, path, selection[0], selection[1]);
 	notify("success", "Connector created.");
