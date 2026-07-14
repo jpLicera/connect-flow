@@ -2,26 +2,12 @@ import { Shape } from "@penpot/plugin-types";
 import "./style.css";
 import { Settings } from "./types/Settings";
 import { ShapeSide } from "./types/ShapeSide";
+import { default_settings } from "./settings";
 
-// get the current theme from the URL
 const searchParams = new URLSearchParams(window.location.search);
 document.body.dataset.theme = searchParams.get("theme") ?? "light";
 
-const settings: Settings = {
-  color: "#000000",
-  opacity: 100,
-  strokeWidth: 2,
-  position: "center",
-  style: "solid",
-  startCap: "none",
-  endCap: "none",
-  drawOnSelection: false,
-  startAnchor: null,
-  endAnchor: null,
-  connectorType: "direct",
-  offset: 0,
-  selectionType: "connector"
-};
+const settings: Settings = {...default_settings};
 
 function loadSettings(s: Settings) {
 	const strokeInput = document.getElementById("strokeInput") as HTMLInputElement;
