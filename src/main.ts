@@ -23,7 +23,7 @@ const settings: Settings = {
   selectionType: "connector"
 };
 
-function updateUI(s: Settings) {
+function loadSettings(s: Settings) {
 	const strokeInput = document.getElementById("strokeInput") as HTMLInputElement;
 	strokeInput.value = s.strokeWidth.toString();
 
@@ -60,7 +60,7 @@ document.getElementById("colorInput")?.addEventListener("input", event => {
 	}
 
 	settings.color = `#${inputElement.value}`;
-	updateUI(settings);
+	document.getElementById("colorPreview")!.style.backgroundColor = settings.color;
 });
 
 document.getElementById("opacityInput")?.addEventListener("input", event => {
@@ -71,7 +71,6 @@ document.getElementById("opacityInput")?.addEventListener("input", event => {
 	}
 
 	settings.opacity = parseInt(inputElement.value);
-	updateUI(settings);
 });
 
 document.querySelectorAll("select").forEach(dropdown => {
@@ -177,7 +176,8 @@ document.getElementById("switchCapsButton")?.addEventListener("click", () => {
 	const initialValue = settings.startCap;
 	settings.startCap = settings.endCap;
 	settings.endCap = initialValue;
-	updateUI(settings);
+	(document.getElementById("startCapSelect") as HTMLInputElement).value = settings.startCap;
+	(document.getElementById("endCapSelect") as HTMLInputElement).value = settings.endCap;
 });
 
 function setupAnchorPointListeners(key: "endAnchor" | "startAnchor") {
@@ -258,7 +258,7 @@ function showNotification(message: string, type: string) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-	updateUI(settings);
+	loadSettings(settings);
 	setupAnchorPointListeners("startAnchor");
 	setupAnchorPointListeners("endAnchor");
 });
