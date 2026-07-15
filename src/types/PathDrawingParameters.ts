@@ -9,6 +9,7 @@ export type PathDrawingParameters = {
 	dy: number;
 	adx: number;
 	ady: number;
-	// arbitrary offset
-	o: number;
+	// arbitrary offset of the start and end points
+	o1: number;
+	o2: number;
 }

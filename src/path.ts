@@ -34,7 +34,7 @@ function generateOrthogonalPath(parameters: ConnectorParameters): string {
 	const alignmentPair: AlignmentPair = getAlignmentPair(dx, dy);
 
 	// clearance between the resulting path and the selected sides, used when the
-	// start and end points are aligned, and a u turn is needed instead of a zigzag
+	// moving away from the start/end shape is necessary
 	const offset = Math.floor(parameters.settings.strokeWidth * 1.5);
 
 	const params: PathDrawingParameters = {
@@ -46,7 +46,8 @@ function generateOrthogonalPath(parameters: ConnectorParameters): string {
 		dy,
 		adx: Math.abs(dx),
 		ady: Math.abs(dy),
-		o: offset,
+		o1: offset * (parameters.startPoint.side === "r" || parameters.startPoint.side === "b" ? 1 : -1),
+		o2: offset * (parameters.endPoint.side === "r" || parameters.endPoint.side === "b" ? 1 : -1)
 	}
 
 	return createOrthogonalPath(alignmentPair, sidePair, params);
