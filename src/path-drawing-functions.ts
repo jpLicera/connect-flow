@@ -42,4 +42,6 @@ export const path_drawing_functions = {
 	p15: (p: PathDrawingParameters) => `L ${p.x1} ${p.y1 + p.o1} L ${p.x1 + p.o2} ${p.y1 + p.o1} L ${p.x2 + p.o2} ${p.y2}`,
 
 	p16: (p: PathDrawingParameters) => `L ${p.x1 + p.o1} ${p.y1} L ${p.x1 + p.o1} ${p.y1 + p.dy / 2} L ${p.x2 + p.o2} ${p.y1 + p.dy / 2} L ${p.x2 + p.o2} ${p.y1 + p.dy / 2} L ${p.x2 + p.o2} ${p.y2}`,
+
+	p17: (p: PathDrawingParameters) => `L ${p.x1} ${p.y1 + p.dy / 2} L ${p.x2} ${p.y1 + p.dy / 2}`,
 }
