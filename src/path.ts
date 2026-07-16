@@ -46,8 +46,8 @@ function generateOrthogonalPath(parameters: ConnectorParameters): string {
 		dy,
 		adx: Math.abs(dx),
 		ady: Math.abs(dy),
-		o1: offset * (parameters.startPoint.side === "r" || parameters.startPoint.side === "b" ? 1 : -1),
-		o2: offset * (parameters.endPoint.side === "r" || parameters.endPoint.side === "b" ? 1 : -1)
+		o1: offset * (parameters.startPoint.side === ShapeSide.right || parameters.startPoint.side === ShapeSide.bottom ? 1 : -1),
+		o2: offset * (parameters.endPoint.side === ShapeSide.right || parameters.endPoint.side === ShapeSide.bottom ? 1 : -1)
 	}
 
 	return createOrthogonalPath(alignmentPair, sidePair, params);
