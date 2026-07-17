@@ -193,13 +193,18 @@ window.addEventListener("message", (event) => {
 		return;
 	}
 
-	if (event.data.type === "theme-change") {
-		document.body.dataset.theme = event.data.theme;
+	if (event.data.type === "notification") {
+		showNotification(event.data.message, event.data.notificationType);
 		return;
 	}
 
-	if (event.data.type === "notification") {
-		showNotification(event.data.message, event.data.notificationType);
+	if (event.data.type === "initialize") {
+		updatePreviewElements(event.data.selection);
+		return;
+	}
+
+	if (event.data.type === "theme-change") {
+		document.body.dataset.theme = event.data.theme;
 		return;
 	}
 

@@ -8,18 +8,15 @@ import { applyOffsetToAnchorPoints, getAnchorPoints } from "./anchor";
 
 penpot.ui.open("ConnectFlow", `?theme=${penpot.theme}`, { width: 500, height: 700 });
 
-// Send initial selection state
 setTimeout(() => {
-  const selection = penpot.selection.map(shape => ({
-    name: shape.name,
-    type: shape.type,
-    id: shape.id
-  }));
+	const selection = penpot.selection.map(shape => ({
+		name: shape.name,
+	}));
 
-  penpot.ui.sendMessage({
-    type: 'selection-update',
-    selection: selection
-  });
+	penpot.ui.sendMessage({
+		type: "initialize",
+		selection: selection
+	});
 }, 100);
 
 function notify(type: string, message: string): void {
@@ -84,9 +81,7 @@ penpot.ui.onMessage<any>(message => {
 penpot.on("selectionchange", () => {
 
 	const selection = penpot.selection.map(shape => ({
-		name: shape.name,
-		type: shape.type,
-		id: shape.id
+		name: shape.name
 	}));
 
 	penpot.ui.sendMessage({
