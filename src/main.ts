@@ -21,6 +21,8 @@ function loadSettings(s: Settings) {
 	(document.getElementById("colorInput") as HTMLInputElement).value = s.color.slice(1);
 	(document.getElementById("colorPreview") as HTMLDivElement).style.backgroundColor = s.color;
 	(document.getElementById("opacityInput") as HTMLInputElement).value = s.opacity.toString();
+	(document.querySelectorAll("[data-setting='startAnchor']") as NodeListOf<HTMLInputElement>).forEach(i => i.checked = i.value === settings.startAnchor);
+	(document.querySelectorAll("[data-setting='endAnchor']") as NodeListOf<HTMLInputElement>).forEach(i => i.checked = i.value === settings.endAnchor);
 }
 
 document.getElementById("colorInput")?.addEventListener("input", event => {
