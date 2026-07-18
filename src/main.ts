@@ -10,32 +10,15 @@ document.body.dataset.theme = searchParams.get("theme") ?? "light";
 const settings: Settings = {...default_settings};
 
 function loadSettings(s: Settings) {
-	const strokeInput = document.getElementById("strokeInput") as HTMLInputElement;
-	strokeInput.value = s.strokeWidth.toString();
-
-	const offsetInput = document.getElementById("offsetInput") as HTMLInputElement;
-	offsetInput.value = s.offset.toString();
-
-	const styleDropdown = document.getElementById("styleSelect") as HTMLSelectElement;
-	styleDropdown.value = s.style;
-
-	const startCapDropdown = document.getElementById("startCapSelect") as HTMLSelectElement;
-	startCapDropdown.value = s.startCap;
-
-	const endCapDropdown = document.getElementById("endCapSelect") as HTMLSelectElement;
-	endCapDropdown.value = s.endCap;
-
-	const connectorTypeDropdown = document.getElementById("connectorTypeSelect") as HTMLSelectElement;
-	connectorTypeDropdown.value = s.connectorType;
-
-	const colorInput = document.getElementById("colorInput") as HTMLInputElement;
-	colorInput.value = s.color.slice(1);
-
-	const colorPreview = document.getElementById("colorPreview") as HTMLDivElement;
-	colorPreview.style.backgroundColor = s.color;
-
-	const opacityInput = document.getElementById("opacityInput") as HTMLInputElement;
-	opacityInput.value = s.opacity.toString();
+	(document.getElementById("strokeInput") as HTMLInputElement).value = s.strokeWidth.toString();
+	(document.getElementById("offsetInput") as HTMLInputElement).value = s.offset.toString();
+	(document.getElementById("styleSelect") as HTMLSelectElement).value = s.style;
+	(document.getElementById("startCapSelect") as HTMLSelectElement).value = s.startCap;
+	(document.getElementById("endCapSelect") as HTMLSelectElement).value = s.endCap;
+	(document.getElementById("connectorTypeSelect") as HTMLSelectElement).value = s.connectorType;
+	(document.getElementById("colorInput") as HTMLInputElement).value = s.color.slice(1);
+	(document.getElementById("colorPreview") as HTMLDivElement).style.backgroundColor = s.color;
+	(document.getElementById("opacityInput") as HTMLInputElement).value = s.opacity.toString();
 }
 
 document.getElementById("colorInput")?.addEventListener("input", event => {
