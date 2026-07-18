@@ -11,7 +11,7 @@
 				<div class="headline-s">Behavior</div>
 				<div class="section__body">
 					<div class="row">
-						<select class="select" data-setting="selectionType">
+						<select id="selectionTypeSelect" class="select" data-setting="selectionType">
 							<option value="connector">Connector</option>
 							<option value="start">Start</option>
 							<option value="end">End</option>
@@ -20,7 +20,7 @@
 					</div>
 					<div class="row">
 						<label class="switch-container">
-							<input type="checkbox" class="checkbox-hidden" aria-labelledby="drawOnSelectionInputLabel" id="drawOnSelectionInput">
+							<input id="drawOnSelectionInput" type="checkbox" class="checkbox-hidden" aria-labelledby="drawOnSelectionInputLabel">
 							<span class="switch-slider"></span>
 						</label>
 						<label for="drawOnSelectionInput" id="drawOnSelectionInputLabel" class="body-m">Draw on selection</label>

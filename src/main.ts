@@ -10,6 +10,8 @@ document.body.dataset.theme = searchParams.get("theme") ?? "light";
 const settings: Settings = {...default_settings};
 
 function loadSettings(s: Settings) {
+	(document.getElementById("selectionTypeSelect") as HTMLSelectElement).value = s.selectionType;
+	(document.getElementById("drawOnSelectionInput") as HTMLInputElement).checked = s.drawOnSelection;
 	(document.getElementById("strokeInput") as HTMLInputElement).value = s.strokeWidth.toString();
 	(document.getElementById("offsetInput") as HTMLInputElement).value = s.offset.toString();
 	(document.getElementById("styleSelect") as HTMLSelectElement).value = s.style;
