@@ -7,7 +7,7 @@ import { default_settings } from "./settings";
 const searchParams = new URLSearchParams(window.location.search);
 document.body.dataset.theme = searchParams.get("theme") ?? "light";
 
-const settings: Settings = {...default_settings};
+let settings: Settings = {...default_settings};
 
 function loadSettings(s: Settings) {
 	(document.getElementById("selectionTypeSelect") as HTMLSelectElement).value = s.selectionType;
@@ -142,7 +142,12 @@ document.getElementById("drawOnSelectionInput")?.addEventListener("change", (e) 
 });
 
 document.getElementById("generateButton")?.addEventListener("click", () => {
-  parent.postMessage({ type: "generate-connector", settings }, "*");
+	parent.postMessage({ type: "generate-connector", settings }, "*");
+});
+
+document.getElementById("restoreButton")?.addEventListener("click", () => {
+	settings = {...default_settings};
+	loadSettings(settings);
 });
 
 document.getElementById("switchCapsButton")?.addEventListener("click", () => {

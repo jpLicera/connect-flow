@@ -75,6 +75,10 @@ button,
 	padding: 16px 8px;
 }
 
+.row--space-between {
+	justify-content: space-between;
+}
+
 .stroke-input {
 	position: relative;
 }
