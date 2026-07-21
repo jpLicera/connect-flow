@@ -65,6 +65,8 @@ document.getElementById("colorInput")?.addEventListener("input", event => {
 	document.getElementById("colorPreview")!.style.backgroundColor = settings.color;
 });
 
+document.getElementById("opacityInput")!.addEventListener("blur", e => onBlurSetDefault(e, "opacity"));
+
 document.getElementById("opacityInput")?.addEventListener("input", event => {
 	const inputElement = event.target as HTMLInputElement;
 
@@ -86,6 +88,8 @@ document.querySelectorAll("select").forEach(dropdown => {
 });
 
 document.getElementById("strokeInput")?.addEventListener("keydown", e => onInputKeydown(e));
+
+document.getElementById("strokeInput")!.addEventListener("blur", e => onBlurSetDefault(e, "strokeWidth"));
 
 document.getElementById("strokeInput")?.addEventListener("input", (e) => {
   const target = e.target as HTMLInputElement;
