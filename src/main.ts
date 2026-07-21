@@ -25,6 +25,24 @@ function loadSettings(s: Settings) {
 	(document.querySelectorAll("[data-setting='endAnchor']") as NodeListOf<HTMLInputElement>).forEach(i => i.checked = i.value === settings.endAnchor);
 }
 
+function preventNonNumericInput(e: KeyboardEvent): void {
+	if ([
+		"Backspace", "Delete", "Tab", "Escape", "Enter", "Home", "End",
+		"ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"
+	].includes(e.key)) {
+		return;
+	}
+
+	// Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z
+	if (e.ctrlKey && ["a", "c", "v", "x", "z"].includes(e.key.toLowerCase())) {
+		return;
+	}
+
+	if (!/^[0-9]$/.test(e.key)) {
+		e.preventDefault();
+	}
+}
+
 document.getElementById("colorInput")?.addEventListener("input", event => {
 	const inputElement = event.target as HTMLInputElement;
 
@@ -56,25 +74,7 @@ document.querySelectorAll("select").forEach(dropdown => {
   });
 });
 
-// Prevenir entrada de caracteres no numéricos en el input de stroke-width
-document.getElementById("strokeInput")?.addEventListener("keydown", (e) => {
-  const key = (e as KeyboardEvent).key;
-  // Permitir: backspace, delete, tab, escape, enter, home, end, left, right, up, down
-  if ([
-    'Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'Home', 'End',
-    'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'
-  ].includes(key)) {
-    return;
-  }
-  // Permitir Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z
-  if ((e as KeyboardEvent).ctrlKey && ['a', 'c', 'v', 'x', 'z'].includes(key.toLowerCase())) {
-    return;
-  }
-  // Bloquear si no es un número
-  if (!/^[0-9]$/.test(key)) {
-    e.preventDefault();
-  }
-});
+document.getElementById("strokeInput")?.addEventListener("keydown", e => preventNonNumericInput(e));
 
 document.getElementById("strokeInput")?.addEventListener("input", (e) => {
   const target = e.target as HTMLInputElement;
@@ -96,25 +96,7 @@ document.getElementById("strokeInput")?.addEventListener("input", (e) => {
   }
 });
 
-// Prevenir entrada de caracteres no numéricos en el input de offset
-document.getElementById("offsetInput")?.addEventListener("keydown", (e) => {
-  const key = (e as KeyboardEvent).key;
-  // Permitir: backspace, delete, tab, escape, enter, home, end, left, right, up, down
-  if ([
-    'Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'Home', 'End',
-    'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'
-  ].includes(key)) {
-    return;
-  }
-  // Permitir Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z
-  if ((e as KeyboardEvent).ctrlKey && ['a', 'c', 'v', 'x', 'z'].includes(key.toLowerCase())) {
-    return;
-  }
-  // Bloquear si no es un número
-  if (!/^[0-9]$/.test(key)) {
-    e.preventDefault();
-  }
-});
+document.getElementById("offsetInput")?.addEventListener("keydown", e => preventNonNumericInput(e));
 
 document.getElementById("offsetInput")?.addEventListener("input", e => {
 	const target = e.target as HTMLInputElement;
