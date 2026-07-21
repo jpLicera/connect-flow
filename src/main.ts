@@ -117,8 +117,8 @@ document.getElementById("offsetInput")?.addEventListener("blur", e => {
 		return;
 	}
 
-	input.value = "0";
-	settings.offset = 0;
+	input.value = default_settings.offset.toString();
+	settings.offset = default_settings.offset;
 });
 
 document.getElementById("drawOnSelectionInput")?.addEventListener("change", (e) => {
