@@ -116,24 +116,27 @@ document.getElementById("offsetInput")?.addEventListener("keydown", (e) => {
   }
 });
 
-document.getElementById("offsetInput")?.addEventListener("input", (e) => {
-  const target = e.target as HTMLInputElement;
+document.getElementById("offsetInput")?.addEventListener("input", e => {
+	const target = e.target as HTMLInputElement;
 
-  // Remover cualquier carácter que no sea número
-  target.value = target.value.replace(/[^0-9]/g, '');
+	target.value = target.value.replace(/[^0-9]/g, '');
 
-  const value = parseInt(target.value);
-  if (!isNaN(value) && value >= 0 && value <= 200) {
-    settings.offset = value;
-  } else if (target.value === '') {
-    // Si el campo está vacío, usar 0 como valor por defecto
-    settings.offset = 0;
-  } else {
-    // Si el valor está fuera del rango, ajustarlo
-    const clampedValue = Math.max(0, Math.min(200, value || 0));
-    target.value = clampedValue.toString();
-    settings.offset = clampedValue;
-  }
+	if (target.value.length === 0) {
+		return;
+	}
+
+	settings.offset = parseInt(target.value);
+});
+
+document.getElementById("offsetInput")?.addEventListener("blur", e => {
+	const input = e.target as HTMLInputElement;
+
+	if(input.value.length > 0) {
+		return;
+	}
+
+	input.value = "0";
+	settings.offset = 0;
 });
 
 document.getElementById("drawOnSelectionInput")?.addEventListener("change", (e) => {

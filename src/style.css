@@ -124,6 +124,7 @@ button,
 }
 
 .input--offset {
+	max-width: 12ch;
 	padding-left: 32px;
 }
 
