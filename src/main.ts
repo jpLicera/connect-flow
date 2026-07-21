@@ -25,7 +25,7 @@ function loadSettings(s: Settings) {
 	(document.querySelectorAll("[data-setting='endAnchor']") as NodeListOf<HTMLInputElement>).forEach(i => i.checked = i.value === settings.endAnchor);
 }
 
-function preventNonNumericInput(e: KeyboardEvent): void {
+function onInputKeydown(e: KeyboardEvent): void {
 	if ([
 		"Backspace", "Delete", "Tab", "Escape", "Enter", "Home", "End",
 		"ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"
@@ -74,12 +74,11 @@ document.querySelectorAll("select").forEach(dropdown => {
   });
 });
 
-document.getElementById("strokeInput")?.addEventListener("keydown", e => preventNonNumericInput(e));
+document.getElementById("strokeInput")?.addEventListener("keydown", e => onInputKeydown(e));
 
 document.getElementById("strokeInput")?.addEventListener("input", (e) => {
   const target = e.target as HTMLInputElement;
 
-  // Remover cualquier carácter que no sea número
   target.value = target.value.replace(/[^0-9]/g, '');
 
   const value = parseInt(target.value);
@@ -96,7 +95,7 @@ document.getElementById("strokeInput")?.addEventListener("input", (e) => {
   }
 });
 
-document.getElementById("offsetInput")?.addEventListener("keydown", e => preventNonNumericInput(e));
+document.getElementById("offsetInput")?.addEventListener("keydown", e => onInputKeydown(e));
 
 document.getElementById("offsetInput")?.addEventListener("input", e => {
 	const target = e.target as HTMLInputElement;
