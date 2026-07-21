@@ -25,6 +25,17 @@ function loadSettings(s: Settings) {
 	(document.querySelectorAll("[data-setting='endAnchor']") as NodeListOf<HTMLInputElement>).forEach(i => i.checked = i.value === settings.endAnchor);
 }
 
+function onBlurSetDefault<Key extends keyof Settings>(e: FocusEvent, key: Key): void {
+	const input = e.target as HTMLInputElement;
+
+	if(input.value.length !== 0) {
+		return;
+	}
+
+	input.value = default_settings[key]!.toString();
+	settings[key] = default_settings[key];
+}
+
 function onInputKeydown(e: KeyboardEvent): void {
 	if ([
 		"Backspace", "Delete", "Tab", "Escape", "Enter", "Home", "End",
@@ -109,16 +120,7 @@ document.getElementById("offsetInput")?.addEventListener("input", e => {
 	settings.offset = parseInt(target.value);
 });
 
-document.getElementById("offsetInput")?.addEventListener("blur", e => {
-	const input = e.target as HTMLInputElement;
-
-	if(input.value.length > 0) {
-		return;
-	}
-
-	input.value = default_settings.offset.toString();
-	settings.offset = default_settings.offset;
-});
+document.getElementById("offsetInput")?.addEventListener("blur", e => onBlurSetDefault(e, "offset"));
 
 document.getElementById("drawOnSelectionInput")?.addEventListener("change", (e) => {
   const target = e.target as HTMLInputElement;
