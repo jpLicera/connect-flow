@@ -25,6 +25,18 @@ function loadSettings(s: Settings) {
 	(document.querySelectorAll("[data-setting='endAnchor']") as NodeListOf<HTMLInputElement>).forEach(i => i.checked = i.value === settings.endAnchor);
 }
 
+function onIntegerInput(event: InputEvent, key: "offset"): void {
+	const target = event.target as HTMLInputElement;
+
+	target.value = target.value.replace(/[^0-9]/g, '');
+
+	if (target.value.length === 0) {
+		return;
+	}
+
+	settings[key] = parseInt(target.value);
+}
+
 function onBlurSetDefault<Key extends keyof Settings>(e: FocusEvent, key: Key): void {
 	const input = e.target as HTMLInputElement;
 
@@ -112,17 +124,7 @@ document.getElementById("strokeInput")?.addEventListener("input", (e) => {
 
 document.getElementById("offsetInput")?.addEventListener("keydown", e => onInputKeydown(e));
 
-document.getElementById("offsetInput")?.addEventListener("input", e => {
-	const target = e.target as HTMLInputElement;
-
-	target.value = target.value.replace(/[^0-9]/g, '');
-
-	if (target.value.length === 0) {
-		return;
-	}
-
-	settings.offset = parseInt(target.value);
-});
+document.getElementById("offsetInput")?.addEventListener("input", e => onIntegerInput(e as InputEvent, "offset"));
 
 document.getElementById("offsetInput")?.addEventListener("blur", e => onBlurSetDefault(e, "offset"));
 
