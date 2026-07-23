@@ -34,6 +34,10 @@ body {
 	line-height: 1;
 }
 
+.input:invalid:hover {
+	border-color: var(--error-500);
+}
+
 button,
 .headline-s,
 .body-m {
