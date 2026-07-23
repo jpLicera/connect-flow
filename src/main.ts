@@ -45,7 +45,7 @@ function onBlurSetDefault<Key extends keyof Settings>(e: FocusEvent, key: Key): 
 	}
 
 	input.value = default_settings[key]!.toString();
-	settings[key] = default_settings[key];
+	input.dispatchEvent(new Event("input"));
 }
 
 function onInputKeydown(e: KeyboardEvent): void {
