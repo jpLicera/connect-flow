@@ -6,7 +6,7 @@ import { Shape, StrokeCap } from "@penpot/plugin-types";
 import { ConnectorParameters } from "./types/ConnectorParameters";
 import { applyOffsetToAnchorPoints, getAnchorPoints } from "./anchor";
 
-penpot.ui.open("ConnectFlow", `?theme=${penpot.theme}`, { width: 500, height: 700 });
+penpot.ui.open("ConnectFlow", `?theme=${penpot.theme}`, { width: 450, height: 575 });
 
 setTimeout(() => {
 	const selection = penpot.selection.map(shape => ({
