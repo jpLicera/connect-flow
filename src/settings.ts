@@ -1,7 +1,7 @@
 import { Settings } from "./types/Settings";
 
 export const default_settings: Settings = {
-  color: "#000000",
+  color: "000000",
   opacity: 100,
   strokeWidth: 2,
   position: "center",

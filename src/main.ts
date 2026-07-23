@@ -18,8 +18,8 @@ function loadSettings(s: Settings) {
 	(document.getElementById("startCapSelect") as HTMLSelectElement).value = s.startCap;
 	(document.getElementById("endCapSelect") as HTMLSelectElement).value = s.endCap;
 	(document.getElementById("connectorTypeSelect") as HTMLSelectElement).value = s.connectorType;
-	(document.getElementById("colorInput") as HTMLInputElement).value = s.color.slice(1);
-	(document.getElementById("colorPreview") as HTMLDivElement).style.backgroundColor = s.color;
+	(document.getElementById("colorInput") as HTMLInputElement).value = s.color;
+	(document.getElementById("colorPreview") as HTMLDivElement).style.backgroundColor = `#${s.color}`;
 	(document.getElementById("opacityInput") as HTMLInputElement).value = s.opacity.toString();
 	(document.querySelectorAll("[data-setting='startAnchor']") as NodeListOf<HTMLInputElement>).forEach(i => i.checked = i.value === settings.startAnchor);
 	(document.querySelectorAll("[data-setting='endAnchor']") as NodeListOf<HTMLInputElement>).forEach(i => i.checked = i.value === settings.endAnchor);
@@ -73,8 +73,8 @@ document.getElementById("colorInput")?.addEventListener("input", event => {
 		return;
 	}
 
-	settings.color = `#${inputElement.value}`;
-	document.getElementById("colorPreview")!.style.backgroundColor = settings.color;
+	settings.color = inputElement.value;
+	document.getElementById("colorPreview")!.style.backgroundColor = `#${settings.color}`;
 });
 
 document.getElementById("opacityInput")!.addEventListener("blur", e => onBlurSetDefault(e, "opacity"));

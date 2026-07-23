@@ -56,7 +56,7 @@ function generateConnector(settings: Settings, selection: Shape[]): void {
 
 	path.strokes = [
 		{
-			strokeColor: settings.color,
+			strokeColor: `#${settings.color}`,
 			strokeWidth: settings.strokeWidth,
 			strokeAlignment: "center",
 			strokeStyle: settings.style as 'solid' | 'dashed' | 'dotted' | 'mixed',
