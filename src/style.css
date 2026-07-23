@@ -302,6 +302,7 @@ body[data-theme="light"] .connector-arrow {
 
 .input--stroke {
 	padding-left: 32px;
+	max-width: 12ch;
 }
 
 .input--opacity {

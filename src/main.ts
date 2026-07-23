@@ -25,7 +25,7 @@ function loadSettings(s: Settings) {
 	(document.querySelectorAll("[data-setting='endAnchor']") as NodeListOf<HTMLInputElement>).forEach(i => i.checked = i.value === settings.endAnchor);
 }
 
-function onIntegerInput(event: InputEvent, key: "offset"): void {
+function onIntegerInput(event: InputEvent, key: "offset" | "strokeWidth"): void {
 	const target = event.target as HTMLInputElement;
 
 	target.value = target.value.replace(/[^0-9]/g, '');
@@ -103,24 +103,7 @@ document.getElementById("strokeInput")?.addEventListener("keydown", e => onInput
 
 document.getElementById("strokeInput")!.addEventListener("blur", e => onBlurSetDefault(e, "strokeWidth"));
 
-document.getElementById("strokeInput")?.addEventListener("input", (e) => {
-  const target = e.target as HTMLInputElement;
-
-  target.value = target.value.replace(/[^0-9]/g, '');
-
-  const value = parseInt(target.value);
-  if (!isNaN(value) && value >= 1 && value <= 100) {
-    settings.strokeWidth = value;
-  } else if (target.value === '') {
-    // Si el campo está vacío, no actualizar settings pero permitir el estado vacío temporalmente
-    return;
-  } else {
-    // Si el valor está fuera del rango, ajustarlo
-    const clampedValue = Math.max(1, Math.min(100, value || 1));
-    target.value = clampedValue.toString();
-    settings.strokeWidth = clampedValue;
-  }
-});
+document.getElementById("strokeInput")!.addEventListener("input", (e) => onIntegerInput(e as InputEvent, "strokeWidth"));
 
 document.getElementById("offsetInput")?.addEventListener("keydown", e => onInputKeydown(e));
 
