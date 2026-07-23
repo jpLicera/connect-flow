@@ -77,6 +77,8 @@ document.getElementById("colorInput")?.addEventListener("input", event => {
 	document.getElementById("colorPreview")!.style.backgroundColor = `#${settings.color}`;
 });
 
+document.getElementById("colorInput")!.addEventListener("blur", e => onBlurSetDefault(e, "color"));
+
 document.getElementById("opacityInput")!.addEventListener("blur", e => onBlurSetDefault(e, "opacity"));
 
 document.getElementById("opacityInput")?.addEventListener("input", event => {
