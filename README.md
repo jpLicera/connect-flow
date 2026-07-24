@@ -1,5 +1,7 @@
 # ConnectFlow - Penpot Plugin
 
+This repo was originally a fork of [https://github.com/elhombretecla/ConnectFlow](ConnectFlow).
+
 ConnectFlow is a Penpot plugin for creating, styling, and managing visual connectors between objects. It streamlines the process of building diagrams and user flows directly on the canvas.
 
 <img width="1497" height="888" alt="cover-plugin" src="https://github.com/user-attachments/assets/df82c50a-3b70-47cf-9c71-7175507cf418" />
@@ -8,19 +10,18 @@ ConnectFlow is a Penpot plugin for creating, styling, and managing visual connec
 
 - **Smart Connector Generation**: Automatically creates connectors between two selected objects
 - **Anchor Point Detection**: Finds the optimal connection points between shapes
-- **Customizable Styling**: 
+- **Customizable Styling**:
   - Adjustable stroke color and opacity
   - Variable stroke width
   - Multiple stroke styles (solid, dashed, dotted)
-  - Arrow markers (start/end)
-- **Text Labels**: Add custom text labels to connectors
+  - Multiple end caps (arrow, circle, etc.)
 - **Interactive UI**: Dark theme interface matching Penpot's design system
 
 ## How to Use
 
 1. **Install the Plugin**: Load the plugin in Penpot
 2. **Select Objects**: Choose exactly two objects on your canvas
-3. **Customize Settings**: 
+3. **Customize Settings**:
    - Adjust color and opacity using the color picker
    - Set stroke width and style
    - Configure arrow markers
@@ -59,8 +60,7 @@ ConnectFlow is a Penpot plugin for creating, styling, and managing visual connec
 
 The plugin uses the Penpot Plugin API to:
 - Access selected objects via `penpot.selection`
-- Create geometric shapes using `penpot.createRectangle()`
-- Add text labels with `penpot.createText()`
+- Create paths using `penpot.createPath()`
 - Apply styling through fill and stroke properties
 - Manage object positioning and rotation
 
@@ -81,4 +81,4 @@ The plugin uses the Penpot Plugin API to:
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE file](LICENSE) for details.
