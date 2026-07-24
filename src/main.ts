@@ -37,14 +37,14 @@ function onIntegerInput(event: InputEvent, key: "offset" | "strokeWidth"): void 
 	settings[key] = parseInt(target.value);
 }
 
-function setDefaultIfEmpty<Key extends keyof Settings>(e: FocusEvent, key: Key): void {
+function setDefaultIfEmpty(e: FocusEvent): void {
 	const input = e.target as HTMLInputElement;
 
 	if(input.value.length !== 0) {
 		return;
 	}
 
-	input.value = default_settings[key]!.toString();
+	input.value = default_settings[input.dataset.setting as keyof Settings]!.toString();
 	input.dispatchEvent(new Event("input"));
 }
 
@@ -77,9 +77,9 @@ document.getElementById("colorInput")?.addEventListener("input", event => {
 	document.getElementById("colorPreview")!.style.backgroundColor = `#${settings.color}`;
 });
 
-document.getElementById("colorInput")!.addEventListener("blur", e => setDefaultIfEmpty(e, "color"));
+document.getElementById("colorInput")!.addEventListener("blur", e => setDefaultIfEmpty(e));
 
-document.getElementById("opacityInput")!.addEventListener("blur", e => setDefaultIfEmpty(e, "opacity"));
+document.getElementById("opacityInput")!.addEventListener("blur", e => setDefaultIfEmpty(e));
 
 document.getElementById("opacityInput")?.addEventListener("input", event => {
 	const inputElement = event.target as HTMLInputElement;
@@ -103,7 +103,7 @@ document.querySelectorAll("select").forEach(dropdown => {
 
 document.getElementById("strokeInput")?.addEventListener("keydown", e => onInputKeydown(e));
 
-document.getElementById("strokeInput")!.addEventListener("blur", e => setDefaultIfEmpty(e, "strokeWidth"));
+document.getElementById("strokeInput")!.addEventListener("blur", e => setDefaultIfEmpty(e));
 
 document.getElementById("strokeInput")!.addEventListener("input", (e) => onIntegerInput(e as InputEvent, "strokeWidth"));
 
@@ -111,7 +111,7 @@ document.getElementById("offsetInput")?.addEventListener("keydown", e => onInput
 
 document.getElementById("offsetInput")?.addEventListener("input", e => onIntegerInput(e as InputEvent, "offset"));
 
-document.getElementById("offsetInput")?.addEventListener("blur", e => setDefaultIfEmpty(e, "offset"));
+document.getElementById("offsetInput")?.addEventListener("blur", e => setDefaultIfEmpty(e));
 
 document.getElementById("drawOnSelectionInput")?.addEventListener("change", (e) => {
   const target = e.target as HTMLInputElement;

@@ -37,7 +37,7 @@
 							<option value="curve">Curve</option>
 						</select>
 						<div class="offset-input">
-							<input id="offsetInput" type="number" class="input input--offset" min="0">
+							<input id="offsetInput" type="number" class="input input--offset" min="0" data-setting="offset">
 						</div>
 					</div>
 					<div class="row row--padded">
@@ -65,15 +65,15 @@
 					<div class="color-input">
 						<div class="color-input__color">
 							<div id="colorPreview" class="color-input__preview"></div>
-							<input id="colorInput" class="input input--color" type="text" pattern="[0-9a-fA-F]{6}" maxlength="6">
+							<input id="colorInput" class="input input--color" type="text" pattern="[0-9a-fA-F]{6}" maxlength="6" data-setting="color">
 						</div>
 						<div class="color-input__opacity">
-							<input id="opacityInput" class="input input--opacity" type="number" max="100" min="0">
+							<input id="opacityInput" class="input input--opacity" type="number" max="100" min="0" data-setting="opacity">
 						</div>
 					</div>
 					<div class="row">
 						<div class="stroke-input">
-							<input id="strokeInput" type="number" class="input input--stroke" min="1">
+							<input id="strokeInput" type="number" class="input input--stroke" min="1" data-setting="strokeWidth">
 						</div>
 						<select id="styleSelect" class="select" data-setting="style">
 							<option value="solid">Solid</option>
